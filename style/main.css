@@ -131,3 +131,31 @@ a button {
   background: linear-gradient(135deg, #ffcc66, #ffc107);
   color: #222;
 }
+/* ✨ Golden Bloom Splash Screen — v6.2H•S */
+#golden-splash {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle at center, #fff8e1, #ffcc80, #ffb300);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #5d4037;
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-size: 1.4rem;
+  z-index: 9999;
+  transition: opacity 1.2s ease;
+}
+
+.splash-text span {
+  font-size: 1.2rem;
+  color: #b71c1c;
+  animation: pulseText 2s infinite alternate;
+}
+
+@keyframes pulseText {
+  from { color: #b71c1c; }
+  to { color: #e53935; }
+}
