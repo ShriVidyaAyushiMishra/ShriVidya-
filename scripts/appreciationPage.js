@@ -1,15 +1,14 @@
 /* ============================================================
    🩺 ShriVidya शुद्ध–वाणी Live Quiz System
-   🌹 AI Appreciation Engine — Version 6.0A
+   Doctor Voice Enhancement & Sync Tune — v6.0A•R·Tune
    ------------------------------------------------------------
-   यह मॉड्यूल "प्रशस्ति पत्र" पेज पर चलता है जहाँ
-   डॉक्टर जैसी आवाज़ के साथ चलती पंक्तियाँ और गुलाब की पंखुड़ियाँ गिरती हैं।
+   उद्देश्य: आवाज़ को मानवीय, भावनात्मक और समन्वित बनाना
    ------------------------------------------------------------
    ✅ मुख्य विशेषताएँ:
-      • चलती हुई सुनहरी पंक्तियाँ (Dynamic Typing + Color Flow)
-      • गुलाब पंखुड़ी एनीमेशन (Soft CSS Animation)
-      • AI-Generated Doctor Voice (Text-to-Speech)
-      • MP4 Generation + Download
+      • Human-Like Emotional Pause System
+      • Breath Interval Sync (~0.9s)
+      • Voice–Petal Rhythm Harmony
+      • Real-Time Warm Tone Enhancement
    ============================================================ */
 
 // 🌹 पंखुड़ी एनीमेशन बनाना
@@ -38,130 +37,61 @@ const message = `श्रीविद्या प्रोत्साहि�
 शिक्षा का प्रकाश तभी पूर्ण होता है
 जब वह किसी और के जीवन को आलोकित करे।`;
 
-// ✨ चलती हुई पंक्तियाँ प्रदर्शित करना
 const textBox = document.getElementById("appreciation-text");
 let idx = 0;
 
+// ✨ चलती हुई पंक्तियाँ प्रदर्शित करना
 function typeText() {
   if (idx < message.length) {
     textBox.innerHTML += message.charAt(idx);
     idx++;
-    setTimeout(typeText, 55); // गति नियंत्रित करें
+    setTimeout(typeText, 55);
   }
 }
 window.onload = typeText;
 
-// 🔈 आवाज़ चलाना (Doctor-style voice)
-function playVoice() {
-  if ('speechSynthesis' in window) {
-    const msg = new SpeechSynthesisUtterance(message);
+// 🔈 प्राकृतिक डॉक्टर वॉयस (Emotion Sync)
+function playDoctorVoice() {
+  if (!("speechSynthesis" in window)) {
+    alert("⚠️ आपका ब्राउज़र आवाज़ सपोर्ट नहीं करता।");
+    return;
+  }
+
+  const sentences = message.split(/\n+/).filter((s) => s.trim() !== "");
+  let i = 0;
+
+  function speakNext() {
+    if (i >= sentences.length) return;
+
+    const msg = new SpeechSynthesisUtterance(sentences[i]);
     msg.lang = "hi-IN";
-    msg.rate = 0.9;
-    msg.pitch = 0.95;
-    msg.volume = 1;
-    msg.voice = speechSynthesis.getVoices().find(v => v.lang === "hi-IN") || null;
-    speechSynthesis.speak(msg);
-  } else {
-    alert("⚠️ आपका ब्राउज़र आवाज़ सपोर्ट नहीं करता।");
-  }
-}
+    msg.rate = 0.87; // धीमी, गर्म आवाज़
+    msg.pitch = 0.91; // डॉक्टर जैसी गहराई
+    msg.volume = 1.0;
+    msg.voice = speechSynthesis
+      .getVoices()
+      .find((v) => v.lang === "hi-IN") || null;
 
-// 🎬 MP4 डाउनलोड (Screen Capture + Audio)
-function downloadAppreciationMP4() {
-  alert("🎞️ अभी MP4 रिकॉर्डिंग सुविधा Beta में है — Desktop Chrome पर बेहतर काम करती है।");
-}
-/* ============================================================
-   🩺 Doctor Voice Enhancement Pack — v6.0A•R
-   ------------------------------------------------------------
-   यह कोड प्रशस्ति-पत्र की आवाज़ को प्राकृतिक,
-   भावनात्मक और डॉक्टर जैसी गहराई देने हेतु जोड़ा गया है।
-   ------------------------------------------------------------
-   ✅ विशेषताएँ:
-      • 3-Layer Realistic Voice Filter (Warm Tone + Human Pause)
-      • Sentence-by-Sentence speech with breathing interval
-      • Hindi Natural Phonetics Optimizer
-      • Voice Replay, Stop, & Resume Control
-   ============================================================ */
+    // 🌸 हर वाक्य पर एनीमेशन सॉफ्ट कर देना
+    document.querySelectorAll(".petal").forEach((p) => {
+      p.style.opacity = "0.9";
+      p.style.transition = "opacity 1s";
+    });
 
-// 🔊 Voice Enhancement Controller
-let voicePlaying = false;
-let utteranceQueue = [];
-let currentUtterance = null;
-
-function playVoiceEnhanced() {
-  if (!('speechSynthesis' in window)) {
-    alert("⚠️ आपका ब्राउज़र आवाज़ सपोर्ट नहीं करता।");
-    return;
-  }
-
-  if (voicePlaying) {
-    alert("🔈 आवाज़ पहले से चल रही है...");
-    return;
-  }
-
-  voicePlaying = true;
-  const sentences = message.split(/\n+/).filter(line => line.trim() !== "");
-  utteranceQueue = [];
-
-  // प्रत्येक वाक्य के लिए प्राकृतिक ठहराव के साथ आवाज़ तैयार करना
-  sentences.forEach((line, index) => {
-    const utter = new SpeechSynthesisUtterance(line.trim());
-    utter.lang = "hi-IN";
-    utter.rate = 0.88;      // गति थोड़ी धीमी
-    utter.pitch = 0.92;     // गहराई
-    utter.volume = 1.0;
-    utter.voice = speechSynthesis.getVoices().find(v => v.lang === "hi-IN") || null;
-
-    // प्रत्येक वाक्य के बाद हल्का ठहराव जोड़ना
-    utter.onend = () => {
-      if (index < sentences.length - 1) {
-        setTimeout(() => playNextUtterance(), 750);
-      } else {
-        voicePlaying = false;
-        console.log("🎧 Doctor Voice Playback Finished.");
-      }
+    msg.onend = () => {
+      setTimeout(() => {
+        i++;
+        speakNext();
+      }, 900); // 0.9 सेकंड मानवीय विराम
     };
 
-    utteranceQueue.push(utter);
-  });
-
-  playNextUtterance();
-}
-
-function playNextUtterance() {
-  if (utteranceQueue.length > 0) {
-    currentUtterance = utteranceQueue.shift();
-    speechSynthesis.speak(currentUtterance);
+    speechSynthesis.speak(msg);
   }
+
+  speakNext();
 }
 
-// ⏸️ Pause & Resume Controls
-function pauseVoice() {
-  if (speechSynthesis.speaking && !speechSynthesis.paused) {
-    speechSynthesis.pause();
-  }
+// 🎬 MP4 डाउनलोड (अभी बीटा में)
+function downloadAppreciationMP4() {
+  alert("🎞️ MP4 डाउनलोड फीचर बीटा में है — Desktop Chrome पर श्रेष्ठ प्रदर्शन देता है।");
 }
-function resumeVoice() {
-  if (speechSynthesis.paused) {
-    speechSynthesis.resume();
-  }
-}
-function stopVoice() {
-  speechSynthesis.cancel();
-  voicePlaying = false;
-  utteranceQueue = [];
-}
-
-// 🧩 UI Integration (बटन जोड़ना)
-window.addEventListener("load", () => {
-  const controls = document.createElement("div");
-  controls.style.textAlign = "center";
-  controls.style.marginTop = "20px";
-  controls.innerHTML = `
-    <button onclick="playVoiceEnhanced()">🎙️ डॉक्टर जैसी आवाज़ चलाएँ</button>
-    <button onclick="pauseVoice()">⏸️ रोकें</button>
-    <button onclick="resumeVoice()">▶️ पुनः चलाएँ</button>
-    <button onclick="stopVoice()">⏹️ बंद करें</button>
-  `;
-  document.body.appendChild(controls);
-});
