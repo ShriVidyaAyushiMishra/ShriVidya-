@@ -1,1 +1,136 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🩺 प्रशस्ति पत्र — ShriVidya शुद्ध–वाणी Live Quiz System</title>
 
+  <!-- 🪷 मुख्य शैली -->
+  <link rel="stylesheet" href="style/main.css">
+
+  <!-- 🌐 मेटा विवरण -->
+  <meta name="description" content="AI Doctor Voice द्वारा प्रेरित ShriVidya शुद्ध–वाणी Live Quiz System का प्रशस्ति पत्र — सुनहरी पंक्तियाँ, गुलाब की पंखुड़ियाँ और मानवीय स्वर की अनुभूति।">
+  <meta name="theme-color" content="#FFD700">
+
+  <!-- 🎨 फॉन्ट और आइकन -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- 🌹 इनलाइन एनीमेशन के लिए स्टाइल -->
+  <style>
+    body {
+      background: radial-gradient(circle at top, #1a1a1a 0%, #000 100%);
+      color: #ffd700;
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      overflow-x: hidden;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1, h3 {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ffcc33, 0 0 20px #ffb347; }
+      to { text-shadow: 0 0 25px #ffe066, 0 0 40px #ffcc33; }
+    }
+
+    /* 🌹 गुलाब पंखुड़ी */
+    .petal {
+      position: fixed;
+      top: -10px;
+      width: 18px;
+      height: 14px;
+      background: radial-gradient(circle, #ff758c 0%, #ff7eb3 70%);
+      border-radius: 50% 50% 50% 50%;
+      opacity: 0.85;
+      pointer-events: none;
+      animation: fall linear infinite;
+      z-index: 9999;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* ✨ टेक्स्ट बॉक्स */
+    #appreciation-text {
+      font-size: 1.2rem;
+      line-height: 2;
+      margin: 60px auto;
+      width: 90%;
+      max-width: 800px;
+      color: #fff8dc;
+      text-shadow: 0 0 10px #ffd700;
+      animation: fadeIn 2s ease-in;
+      min-height: 300px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 🎛️ बटन (Golden UI Pack v6.0A•G) */
+    .gold-btn {
+      background: linear-gradient(90deg, #ffb347, #ffd700);
+      border: none;
+      border-radius: 50px;
+      color: #1a1a1a;
+      font-weight: bold;
+      padding: 12px 28px;
+      font-size: 1rem;
+      margin: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+      transition: all 0.3s ease;
+    }
+    .gold-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 1);
+    }
+
+    footer {
+      margin-top: 40px;
+      color: #aaa;
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <header style="margin-top: 40px;">
+    <h1>🌸 ShriVidya शुद्ध–वाणी Live Quiz System 🌸</h1>
+    <h3>— प्रशस्ति पत्र (AI Doctor Voice Edition) —</h3>
+  </header>
+
+  <!-- 🌹 चलती पंक्तियाँ -->
+  <div id="appreciation-text"></div>
+
+  <!-- 🎧 बटन नियंत्रण -->
+  <div style="margin-top: 30px;">
+    <button class="gold-btn" onclick="playVoiceEnhanced()">🎙️ डॉक्टर जैसी आवाज़ चलाएँ</button>
+    <button class="gold-btn" onclick="pauseVoice()">⏸️ रोकें</button>
+    <button class="gold-btn" onclick="resumeVoice()">▶️ पुनः चलाएँ</button>
+    <button class="gold-btn" onclick="stopVoice()">⏹️ बंद करें</button>
+    <button class="gold-btn" onclick="startRecording()">🎥 रिकॉर्डिंग शुरू करें</button>
+    <button class="gold-btn" onclick="stopRecording()">⏹️ रिकॉर्डिंग बंद करें</button>
+    <button class="gold-btn" onclick="downloadAppreciationMP4()">🎬 MP4 डाउनलोड करें</button>
+    <a href="index.html"><button class="gold-btn">🏠 मुख्य पृष्ठ</button></a>
+  </div>
+
+  <footer>
+    © 2025 ShriVidya शुद्ध–वाणी Live Quiz System | Doctor Voice Edition v6.0A•R  
+    <br>सभी अधिकार सुरक्षित।
+  </footer>
+
+  <!-- 🔗 स्क्रिप्ट लिंक्स -->
+  <script src="scripts/appreciationPage.js"></script>
+  <script src="scripts/mp4RecorderFree.js"></script>
+</body>
+</html>
