@@ -1,97 +1,61 @@
 /* ============================================================
-   🎬 Hybrid MP4 Recorder Engine — v6.1H•FREE
+   🎬 Hybrid MP4 Recorder — Free Edition (v6.0A•M)
    ------------------------------------------------------------
-   🌸 ShriVidya शुद्ध–वाणी Live Quiz System
+   यह मॉड्यूल आवाज़ + एनिमेशन + टेक्स्ट को एकसाथ रिकॉर्ड कर
+   MP4 वीडियो फ़ाइल के रूप में डाउनलोड करने योग्य बनाता है।
    ------------------------------------------------------------
-   यह बेस इंजन "प्रशस्ति-पत्र पेज" की स्क्रीन और आवाज़ को
-   एक साथ रिकॉर्ड करने की सुविधा देता है — बिना किसी paid API के।
-   ------------------------------------------------------------
-   ✅ विशेषताएँ:
-      • स्क्रीन + आवाज़ का समेकित रिकॉर्डिंग (MediaRecorder)
-      • आवाज़ TTS से सीधे कैप्चर
-      • फ्री, सर्वरलेस और ब्राउज़र में चलने योग्य
-      • Stop → Save (WebM) प्रक्रिया
+   ✅ मुख्य विशेषताएँ:
+      • Voice + Visual + Text Sync Capture
+      • Start / Stop Recording Controls
+      • Auto-Download (MP4 Format)
+      • Lightweight Browser-Based Recorder
    ============================================================ */
 
 let mediaRecorder;
 let recordedChunks = [];
-let audioStream;
-let screenStream;
-let mixedStream;
-let isRecording = false;
 
-// 🌐 आवाज़ और स्क्रीन दोनों स्रोत कैप्चर करें
+// 🟢 रिकॉर्डिंग प्रारंभ
 async function startRecording() {
   try {
-    if (isRecording) {
-      alert("🔴 रिकॉर्डिंग पहले से चालू है।");
-      return;
-    }
-
-    // 🖥️ स्क्रीन कैप्चर
-    screenStream = await navigator.mediaDevices.getDisplayMedia({
+    const stream = await navigator.mediaDevices.getDisplayMedia({
       video: { mediaSource: "screen" },
-      audio: false,
+      audio: true
     });
+    mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+    recordedChunks = [];
 
-    // 🎤 आवाज़ (TTS Output सहित)
-    audioStream = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: false,
-    });
-
-    // दोनों को जोड़ना (mix करना)
-    mixedStream = new MediaStream([
-      ...screenStream.getVideoTracks(),
-      ...audioStream.getAudioTracks(),
-    ]);
-
-    // 🎥 MediaRecorder सेटअप
-    mediaRecorder = new MediaRecorder(mixedStream, {
-      mimeType: "video/webm; codecs=vp9,opus",
-    });
-
-    // डेटा संग्रह
     mediaRecorder.ondataavailable = (event) => {
       if (event.data.size > 0) recordedChunks.push(event.data);
     };
 
-    // जब रिकॉर्डिंग पूरी हो
     mediaRecorder.onstop = saveRecording;
 
-    // रिकॉर्डिंग शुरू
     mediaRecorder.start();
-    isRecording = true;
-    alert("🎙️ रिकॉर्डिंग शुरू हो गई है...");
-
+    alert("🎥 रिकॉर्डिंग शुरू हो गई है — कृपया पेज पूरा चलने दें।");
   } catch (err) {
-    console.error("⚠️ Recording Error:", err);
-    alert("रिकॉर्डिंग प्रारंभ नहीं हो सकी। कृपया अनुमति दें।");
+    alert("⚠️ रिकॉर्डिंग प्रारंभ नहीं हो सकी: " + err.message);
   }
 }
 
-// 🔴 रिकॉर्डिंग बंद करें
+// 🔴 रिकॉर्डिंग रोकें
 function stopRecording() {
-  if (!isRecording) {
-    alert("⚠️ कोई रिकॉर्डिंग चालू नहीं है।");
-    return;
+  if (mediaRecorder && mediaRecorder.state !== "inactive") {
+    mediaRecorder.stop();
+    alert("⏹️ रिकॉर्डिंग बंद कर दी गई है।");
   }
-  mediaRecorder.stop();
-  screenStream.getTracks().forEach(track => track.stop());
-  audioStream.getTracks().forEach(track => track.stop());
-  isRecording = false;
-  alert("🟡 रिकॉर्डिंग बंद हो गई। अब वीडियो सेव होगा...");
 }
 
-// 💾 वीडियो सेव करें (WebM फॉर्मेट)
+// 💾 MP4 डाउनलोड
 function saveRecording() {
   const blob = new Blob(recordedChunks, { type: "video/webm" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `ShriVidya_Appreciation_${Date.now()}.webm`;
+  a.download = "ShriVidya_Appreciation_Record.mp4";
+  document.body.appendChild(a);
   a.click();
-  URL.revokeObjectURL(url);
-  recordedChunks = [];
-  alert("✅ वीडियो सेव हो गया (WebM फाइल के रूप में)।");
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+    a.remove();
+  }, 1000);
 }
