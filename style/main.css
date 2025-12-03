@@ -64,3 +64,70 @@ button:hover {
   transform: translateY(-3px);
   background: linear-gradient(90deg, #2575fc, #6a11cb);
 }
+/* ============================================================
+   ✨ Golden Control UI Pack — v6.0A•G
+   ------------------------------------------------------------
+   डॉक्टर वॉइस कंट्रोल बटनों के लिए सुनहरी चमकदार डिज़ाइन
+   (Play, Pause, Resume, Stop, Voice Download आदि)
+   ============================================================ */
+
+button {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+  font-size: 1rem;
+  padding: 10px 22px;
+  margin: 8px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(135deg, #ffd700, #ffb300);
+  color: #1a1a1a;
+  box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+  letter-spacing: 0.3px;
+}
+
+/* Hover पर सुनहरी आभा */
+button:hover {
+  background: linear-gradient(135deg, #ffec80, #ffb84d);
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(255, 215, 0, 0.6);
+}
+
+/* विशेष बटन Glow Animation */
+@keyframes goldPulse {
+  0% { box-shadow: 0 0 5px rgba(255, 223, 0, 0.6); }
+  50% { box-shadow: 0 0 20px rgba(255, 223, 0, 1); }
+  100% { box-shadow: 0 0 5px rgba(255, 223, 0, 0.6); }
+}
+
+button:focus, button:active {
+  animation: goldPulse 1.5s infinite;
+  outline: none;
+}
+
+/* 🎙️ Doctor Voice Section Buttons के लिए */
+button[onclick*="playVoiceEnhanced"],
+button[onclick*="pauseVoice"],
+button[onclick*="resumeVoice"],
+button[onclick*="stopVoice"] {
+  background: linear-gradient(135deg, #ffe97f, #ffb400);
+  color: #2c2c2c;
+  font-weight: bold;
+}
+
+/* 🎬 MP4 Download बटन */
+button[onclick*="downloadAppreciationMP4"] {
+  background: linear-gradient(135deg, #ffb347, #ffcc33);
+  color: #111;
+}
+
+/* 🔊 Audio Play बटन */
+button[onclick*="playVoice"] {
+  background: linear-gradient(135deg, #fff176, #ffd54f);
+}
+
+/* 🏠 मुख्य पृष्ठ पर लौटें बटन */
+a button {
+  background: linear-gradient(135deg, #ffcc66, #ffc107);
+  color: #222;
+}
