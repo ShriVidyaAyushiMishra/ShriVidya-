@@ -1,3 +1,7 @@
+// 🎤 प्रीलोड आवाज़ें (preload voices)
+window.speechSynthesis.onvoiceschanged = () => {
+  console.log("🎙️ Voices loaded successfully");
+};
 /* ============================================================
    🌸 Golden Bloom Splash Screen — Doctor Welcome Controller v6.0A•S
    ============================================================ */
