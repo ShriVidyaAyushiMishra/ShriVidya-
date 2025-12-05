@@ -183,3 +183,9 @@ class MoralCore {
 window.ShriVidyaMoralCore = new MoralCore();
 
 console.log("🌺 Moral Core fully initialized and synchronized.");
+
+// ============================================================
+// 🌸 SAKHA — Your Digital Friend Initialization
+// ------------------------------------------------------------
+window.Sakha = window.ShriVidyaMoralCore;
+console.log("💫 'सखा' सक्रिय है — आपका डिजिटल मित्र तैयार है।");
