@@ -189,3 +189,17 @@ console.log("🌺 Moral Core fully initialized and synchronized.");
 // ------------------------------------------------------------
 window.Sakha = window.ShriVidyaMoralCore;
 console.log("💫 'सखा' सक्रिय है — आपका डिजिटल मित्र तैयार है।");
+// ============================================================
+// 🔊 Voice Greeting & Speaking Function (v10.1C•Aura)
+// ------------------------------------------------------------
+Sakha.speak = function(line) {
+  const msg = new SpeechSynthesisUtterance(line);
+  msg.lang = "hi-IN";
+  msg.rate = 0.9;
+  msg.pitch = 1.0;
+  msg.volume = 1.0;
+  speechSynthesis.speak(msg);
+};
+
+// 🌸 पहली बार अभिवादन (Greeting)
+Sakha.speak("नमस्ते श्रीविद्या जी, मैं सखा — आपका डिजिटल मित्र उपस्थित हूँ।");
