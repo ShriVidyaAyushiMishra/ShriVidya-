@@ -62,17 +62,28 @@ function delay(ms) {
 }
 
 // ============================================================
-// 3️⃣ ADMIN GUARDIAN LAYER (FULL CONTROL)
+// 3️⃣ 🧭 ADMIN GUARDIAN LAYER (FULL CONTROL + SAKHA INTELLIGENCE)
 // ============================================================
 function adminGuardian(role, masterCode) {
-  console.log("🔒 Checking Admin Privileges...");
+  console.log("🧭 Checking Admin Privileges...");
+
+  // 🌸 सखा की सुरक्षा परत (Behavioral Check)
+  if (!Sakha.processAction(role, "loginAttempt", "adminPanel")) {
+    alert("🚫 सखा ने असामान्य लॉगिन प्रयास रोका।");
+    console.warn("⚠️ Sakha Behavioral Check failed — Login halted.");
+    return false;
+  }
+
+  // 🧠 एडमिन प्रमाणीकरण सत्यापन (Master Validation)
   if (role === "admin" && masterCode === "SV-MASTER") {
     ShriVidyaSecurity.role = "admin";
     ShriVidyaSecurity.authStatus = "verified";
-    console.log("✅ Admin privileges granted.");
+    console.log("✅ Admin privileges granted successfully.");
     return true;
-  } else {
-    console.warn("🚫 Access Denied: Invalid admin code or role.");
+  } 
+  else {
+    console.warn("❌ Access Denied: Invalid admin code or role.");
+    alert("🚫 एडमिन प्रमाणीकरण असफल — कृपया Master Key पुनः जांचें।");
     return false;
   }
 }
