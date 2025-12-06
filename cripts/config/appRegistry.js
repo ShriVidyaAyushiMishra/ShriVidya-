@@ -17,8 +17,12 @@
 
   // 2️⃣ केंद्रीय रजिस्ट्री
   const registry = {
-    adminEmail: "shreevidyamatabhuvanesvari@gmail.com",  // ← यहाँ आप अपनी ईमेल डालें (उदाहरण: shreevidya.app@gmail.com)
-    supportEmail: "support@shreevidya.in", 
+    // ✅ आधिकारिक ईमेल रजिस्ट्री
+    adminEmail: "shreevidyamatabhuvanesvari@gmail.com",      // मुख्य एडमिन ईमेल
+    backupEmail: "shrividya8565@gmail.com",     // बैकअप हेतु (अभी समान)
+    supportEmail: "shrividya.app@gmail.com",    // उपयोगकर्ता सहायता हेतु
+
+    // 🧩 सिस्टम पहचान
     systemID: "SV-CORE-SHREEVIDYA",
     registryVersion: "9.5•Core",
     createdBy: "ShriVidya",
@@ -51,6 +55,7 @@
     configurable: false,
   });
 
+  // 6️⃣ लॉगिंग और सत्यापन
   console.log("✅ ShriVidya App Registry सफलतापूर्वक इनिशियलाइज्ड हुई।");
   console.log("📧 Masked Admin Email:", registry.getMaskedEmail());
   console.log("🧩 Integrity Check:", registry.verifyIntegrity() ? "PASSED" : "FAILED");
