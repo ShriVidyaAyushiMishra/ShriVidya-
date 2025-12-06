@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🛡️ एडमिन लॉगिन — ShriVidya System</title>
+
+  <!-- 🌸 मुख्य शैली -->
+  <link rel="stylesheet" href="style/main.css">
+  <meta name="theme-color" content="#ffd700">
+  <meta name="description" content="ShriVidya App Admin Login — Triple Layer Intelligent Gateway with Sakha & Security Core">
+
+  <style>
+    body {
+      background: radial-gradient(circle at top, #1a1a1a, #000);
+      color: #ffd700;
+      text-align: center;
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .login-card {
+      margin: 80px auto;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid #ffd700;
+      border-radius: 20px;
+      padding: 30px;
+      width: 85%;
+      max-width: 420px;
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
+      backdrop-filter: blur(6px);
+    }
+    input {
+      width: 85%;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      text-align: center;
+    }
+    button {
+      padding: 12px 28px;
+      font-size: 1rem;
+      color: #1a1a1a;
+      background: linear-gradient(90deg, #ffb347, #ffd700);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+      box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+    }
+    button:hover {
+      transform: scale(1.05);
+      transition: 0.3s;
+    }
+  </style>
+</head>
+
+<body>
+  <header style="margin-top:40px;">
+    <h1>🌼 ShriVidya Admin Access Gateway</h1>
+    <h3>🔑 Triple Layer Intelligent Security (v9.1A•Unified)</h3>
+  </header>
+
+  <!-- 🔐 लॉगिन कार्ड -->
+  <div class="login-card">
+    <h2>एडमिन लॉगिन</h2>
+
+    <!-- 🔹 फिंगरप्रिंट या पासवर्ड -->
+    <input type="password" id="adminPass" placeholder="पासवर्ड या Master Key डालें">
+
+    <!-- 🔹 लॉगिन बटन -->
+    <button onclick="initiateAdminLogin()">🔓 लॉगिन करें</button>
+
+    <!-- 🔹 वैकल्पिक OTP सेक्शन -->
+    <div id="otpSection" style="display:none;">
+      <input type="text" id="otpInput" placeholder="OTP डालें (यदि भेजा गया हो)">
+      <button onclick="verifyOTP()">✔️ OTP सत्यापित करें</button>
+    </div>
+
+    <!-- 🔹 स्थिति -->
+    <p id="login-status">स्थिति: प्रतीक्षा में...</p>
+  </div>
+
+  <footer style="margin-top:40px; font-size:0.9rem;">
+    © 2025 ShriVidya System | Admin Security Portal
+  </footer>
+
+  <!-- 🌸 सखा — Moral Intelligence Core -->
+  <script src="scripts/moralCore.js"></script>
+  <script>
+    // 🔹 सखा प्रारंभ करें
+    window.Sakha.GlobalInit();
+    Sakha.linkModule("AdminLogin");
+    console.log("🌼 सखा अब AdminLogin पेज से लिंक्ड है।");
+  </script>
+
+  <!-- 🛡️ सुरक्षा नियंत्रक — Multi-Layer Security -->
+  <script src="scripts/securityController.js"></script>
+
+  <!-- 🔑 एडमिन लॉगिन लॉजिक -->
+  <script src="scripts/adminLogin.js"></script>
+
+</body>
+</html>
