@@ -61,7 +61,7 @@
 <body>
   <header style="margin-top:40px;">
     <h1>🌼 ShriVidya Admin Access Gateway</h1>
-    <h3>🔑 Triple Layer Intelligent Security (v9.1A•Unified)</h3>
+    <h3>🔑 Triple Layer Intelligent Security (v10.5A•Unified)</h3>
   </header>
 
   <!-- 🔐 लॉगिन कार्ड -->
@@ -88,20 +88,70 @@
     © 2025 ShriVidya System | Admin Security Portal
   </footer>
 
+  <!-- 🛡️ सुरक्षा नियंत्रक -->
+  <script src="scripts/securityController.js"></script>
+
   <!-- 🌸 सखा — Moral Intelligence Core -->
   <script src="scripts/moralCore.js"></script>
   <script>
-    // 🔹 सखा प्रारंभ करें
-    window.Sakha.GlobalInit();
-    Sakha.linkModule("AdminLogin");
-    console.log("🌼 सखा अब AdminLogin पेज से लिंक्ड है।");
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.Sakha) {
+        Sakha.GlobalInit();
+        Sakha.linkModule("AdminLogin");
+        console.log("🌼 सखा अब AdminLogin पेज से सुरक्षित रूप से लिंक्ड है।");
+      } else {
+        console.warn("⚠️ सखा अभी इनिशियलाइज़ नहीं हुआ।");
+      }
+    });
   </script>
 
-  <!-- 🛡️ सुरक्षा नियंत्रक — Multi-Layer Security -->
-  <script src="scripts/securityController.js"></script>
-
   <!-- 🔑 एडमिन लॉगिन लॉजिक -->
-  <script src="scripts/adminLogin.js"></script>
+  <script>
+  async function initiateAdminLogin() {
+    const key = document.getElementById("adminPass").value.trim();
+    const status = document.getElementById("login-status");
 
+    if (!key) {
+      Sakha.speak("कृपया अपना पासवर्ड डालें।");
+      return;
+    }
+
+    // 🧠 सखा व्यवहार विश्लेषण
+    const allow = Sakha.processAction("admin", "loginAttempt", "AdminPanel");
+    if (!allow) {
+      status.innerText = "🚫 सखा ने लॉगिन प्रयास रोका।";
+      return;
+    }
+
+    // 🔐 सिक्योरिटी सत्यापन
+    const valid = await ShriVidyaSecurity.verifyAccess("admin", key);
+    if (valid) {
+      status.innerText = "✅ लॉगिन सफल! प्रवेश अनुमत।";
+      Sakha.speak("स्वागत है श्रीविद्या जी। एडमिन पैनल खुल रहा है।");
+      setTimeout(() => (window.location.href = "admin.html"), 1500);
+    } else {
+      status.innerText = "❌ अमान्य पासवर्ड या मास्टर की।";
+      Sakha.speak("गलत पासवर्ड, कृपया पुनः प्रयास करें।");
+      // OTP सेक्शन दिखाएँ
+      document.getElementById("otpSection").style.display = "block";
+    }
+  }
+
+  // 🔹 OTP सत्यापन
+  async function verifyOTP() {
+    const otp = document.getElementById("otpInput").value.trim();
+    const status = document.getElementById("login-status");
+    const result = await ShriVidyaSecurity.verifyOTP(otp);
+
+    if (result) {
+      status.innerText = "✅ OTP सत्यापन सफल!";
+      Sakha.speak("सत्यापन सफल हुआ, स्वागत है श्रीविद्या जी।");
+      setTimeout(() => (window.location.href = "admin.html"), 1500);
+    } else {
+      status.innerText = "🚫 गलत OTP या समय समाप्त!";
+      Sakha.speak("OTP सत्यापन असफल हुआ।");
+    }
+  }
+  </script>
 </body>
 </html>
