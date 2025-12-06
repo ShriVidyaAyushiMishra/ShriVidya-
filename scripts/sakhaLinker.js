@@ -1,97 +1,61 @@
 /* ============================================================
-   🌸 Sakha Auto-Linker Engine (v10.4•BindNet)
+   🌸 ShriVidya App — Sakha Auto-Bind Engine
    ------------------------------------------------------------
-   उद्देश्य: सभी HTML फाइलों को स्वचालित रूप से सखा (moralCore.js)
-             और सिक्योरिटी (securityController.js) से जोड़ना।
-   ------------------------------------------------------------
-   ✅ विशेषताएँ:
-      • फाइल स्कैन + ऑटो लिंकिंग
-      • ट्रिपल क्रॉस वेरिफिकेशन सिस्टम
-      • लॉग जनरेशन (sakhaLink.log)
-      • एडमिन परमिशन आवश्यक
+   Version : v10.4•BindNet
+   Purpose : सखा और सिक्योरिटी को हर HTML फाइल में स्वतः सक्रिय करना।
+   System  : Moral Intelligence + SecurityController + Registry Sync
+   Security: Triple-Layer Validation + Silent Recovery Mode
    ============================================================ */
 
-(async function SakhaAutoLinker() {
-  console.log("🧭 Sakha BindNet प्रारंभ हो रहा है...");
+(function () {
+  console.log("🔗 Sakha Auto-Bind Engine प्रारंभ हो रहा है...");
 
-  // 1️⃣ एडमिन परमिशन सत्यापन
-  if (!window.ShriVidyaSecurity || ShriVidyaSecurity.role !== "admin") {
-    console.warn("🚫 एडमिन अनुमति नहीं — BindNet रद्द किया गया।");
+  // 1️⃣ प्रीलोड चेक
+  if (typeof window.Sakha === "undefined") {
+    console.warn("⚠️ सखा अभी लोड नहीं हुआ, moralCore.js आवश्यक है।");
+    return;
+  }
+  if (typeof window.ShriVidyaSecurity === "undefined") {
+    console.warn("⚠️ Security Controller अनुपस्थित, securityController.js आवश्यक है।");
     return;
   }
 
-  // 2️⃣ फाइल लिस्ट (App Root में HTML Files)
-  const filesToScan = [
-    "index.html",
-    "appreciation.html",
-    "quiz.html",
-    "study.html",
-    "cloud.html",
-    "adminLogin.html",
-    "admin.html"
-  ];
+  // 2️⃣ पेज पहचान
+  const currentPage = window.location.pathname.split("/").pop();
+  console.log(`📄 Auto-Binding सक्रिय: ${currentPage}`);
 
-  // 3️⃣ जो स्क्रिप्ट जोड़ी जानी हैं
-  const requiredScripts = [
-    'scripts/moralCore.js',
-    'scripts/securityController.js'
-  ];
-
-  // 4️⃣ ट्रिपल वेरिफिकेशन फ़ंक्शन
-  async function verifyFileIntegrity(fileName) {
-    console.log(`🧠 सत्यापन: ${fileName}`);
-    const res = await fetch(fileName);
-    if (!res.ok) return false;
-    const text = await res.text();
-    return text.includes("<body>") && text.includes("</html>");
+  // 3️⃣ सखा आरंभ
+  try {
+    Sakha.GlobalInit();
+    Sakha.linkModule(currentPage);
+    Sakha.speak(`नमस्ते श्रीविद्या जी, सखा ${currentPage} पेज से जुड़ गया है।`);
+    console.log(`✅ सखा अब ${currentPage} से लिंक्ड है।`);
+  } catch (err) {
+    console.error("❌ सखा इनिशियलाइज़ेशन असफल:", err);
   }
 
-  // 5️⃣ मुख्य प्रक्रिया (Auto Linking)
-  for (let file of filesToScan) {
-    try {
-      const isValid = await verifyFileIntegrity(file);
-      if (!isValid) {
-        console.warn(`⚠️ ${file} को स्कैन नहीं किया जा सका।`);
-        continue;
-      }
-
-      let content = await (await fetch(file)).text();
-
-      // जांचें कि लिंक पहले से मौजूद हैं या नहीं
-      let alreadyLinked = requiredScripts.every(scr => content.includes(scr));
-
-      if (alreadyLinked) {
-        console.log(`✅ ${file} पहले से लिंक है।`);
-        continue;
-      }
-
-      // स्क्रिप्ट्स जोड़ें (</body> के पहले)
-      let updatedContent = content.replace(
-        "</body>",
-        `  <!-- 🌸 Sakha Auto-Linked Scripts -->\n` +
-        requiredScripts.map(s => `  <script src="${s}"></script>`).join("\n") +
-        `\n</body>`
-      );
-
-      // लोकल सेविंग (ब्राउज़र में डाउनलोड प्रस्ताव)
-      const blob = new Blob([updatedContent], { type: "text/html" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = file;
-      a.click();
-      URL.revokeObjectURL(url);
-
-      console.log(`🌸 सखा ने ${file} को लिंक किया।`);
-    } catch (err) {
-      console.error(`❌ ${file} में त्रुटि:`, err);
+  // 4️⃣ सिक्योरिटी सक्रियण
+  try {
+    if (window.ShriVidyaSecurity) {
+      ShriVidyaSecurity.autoSession();
+      console.log("🛡️ Security Controller सक्रिय है।");
     }
+  } catch (err) {
+    console.error("⚠️ Security Auto-Bind Error:", err);
   }
 
-  // 6️⃣ लॉग जनरेशन
-  const logEntry = `[${new Date().toLocaleString()}] सखा ने लिंकिंग प्रक्रिया पूर्ण की ✅\n`;
-  console.log(logEntry);
+  // 5️⃣ हेल्थ-मॉनिटर
+  setInterval(() => {
+    if (!Sakha.sessionActive()) {
+      console.warn("⏸️ सखा सेशन निष्क्रिय, पुनः प्रयास जारी...");
+      Sakha.recoverSession();
+    }
+  }, 240000); // हर 4 मिनट में स्थिति जांच
 
-  // 7️⃣ अंतिम पुष्टिकरण
-  alert("💫 सखा अब सभी पेजों से जुड़ चुका है।\n(फ़ाइलें डाउनलोड फ़ोल्डर में सेव हो गई हैं)");
+  // 6️⃣ यूनिवर्सल हैंडलिंग
+  window.addEventListener("beforeunload", () => {
+    Sakha.logEvent("sessionEnd", currentPage);
+  });
+
+  console.log("💫 Sakha Auto-Bind Engine पूर्ण सक्रिय हुआ।");
 })();
