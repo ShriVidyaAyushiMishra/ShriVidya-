@@ -25,7 +25,7 @@
       global.SVRegistry?.supportEmail || "shrividya.app@gmail.com",
 
     // 🪷 सिस्टम पहचान
-    systemID: "SV-CORE-ALPHA",
+    systemID: "SV-CORE-SHREEVIDYA",
     registryVersion: "9.9•Dynamic",
     createdBy: "ShriVidya",
 
