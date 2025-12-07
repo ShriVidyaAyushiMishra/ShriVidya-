@@ -1,118 +1,192 @@
 /* ============================================================
-   🌸 ShriVidya App — Sakha–Sakhi Dynamic Voice Module
+   🕉️ ShriVidya App — SwarVivek : AkhandVaani Core
    ------------------------------------------------------------
-   Version : v10.6.6 • SwarVivek
-   Purpose : सखा की वाणी को गुरु के भावानुसार स्वचालित स्वर (महिला/पुरुष) देना
-   Security: Admin Voice Authority + ShuddhaPath Protocol
+   Version : v10.9 • Multi-Language + VedaScience Harmony
+   Purpose : भारत की विविध भाषाओं, विज्ञान, वेद और भावना को एक स्वर में जोड़ना
+   Core    : SpeechSynthesis + SpeechRecognition + BhavaSense + VedaNet Engine
    ============================================================ */
 
 (function (global) {
-
-  // 1️⃣ इनिशियल गार्ड
-  if (global.SakhaSwarVivek) {
+  if (global.SwarVivek) {
     console.warn("⚠️ SwarVivek पहले से सक्रिय है।");
     return;
   }
 
-  const SakhaSwarVivek = {
+  const SwarVivek = {
+    activeVoice: null,
+    language: "hi-IN", // 🇮🇳 प्राथमिक भाषा
+    regionMode: "Awadhi", // सांस्कृतिक स्वर रूप
+    genderMode: "auto",
+    emotionTone: "शांत",
+    knowledgeDomains: ["वेद", "संस्कृत", "विज्ञान", "चिकित्सा", "अवधि", "अंग्रेज़ी", "रसायन", "जीव विज्ञान", "भौतिकी"],
 
-    // 🎙️ स्वर मोड — "male" या "female"
-    currentVoiceMode: "male",
-
-    // ⚙️ वाणी की गति और स्वर-पिच
-    voiceSettings: {
-      male: { rate: 0.95, pitch: 0.9, volume: 1.0 },
-      female: { rate: 0.95, pitch: 1.15, volume: 1.0 }
+    // 🌺 उपलब्ध भारतीय आवाज़ें प्राप्त करना
+    getIndianVoices() {
+      const allVoices = speechSynthesis.getVoices();
+      return allVoices.filter(v =>
+        v.lang.startsWith("hi") ||
+        v.lang.startsWith("en-IN") ||
+        v.lang.startsWith("sa-IN") ||
+        v.lang.startsWith("bn-IN") ||
+        v.lang.startsWith("ta-IN") ||
+        v.lang.startsWith("gu-IN") ||
+        v.lang.startsWith("te-IN") ||
+        v.lang.startsWith("ml-IN") ||
+        v.lang.startsWith("pa-IN") ||
+        v.lang.startsWith("mr-IN") ||
+        v.lang.startsWith("or-IN")
+      );
     },
 
-    // 🎚️ Auto Mode Switch (Manual + Auto)
-    autoMode: true, // true = auto mode, false = manual toggle
+    // 🎙️ स्वर सेट करें (पुरुष/महिला)
+    setVoice(gender = "auto") {
+      const voices = this.getIndianVoices();
+      let chosen;
 
-    // 🪶 स्वर बदलना
-    toggleVoiceMode() {
-      this.currentVoiceMode = this.currentVoiceMode === "male" ? "female" : "male";
-      console.log(`🎙️ सखा ने स्वर बदला — अब ${this.currentVoiceMode === "male" ? "पुरुष" : "महिला"} स्वर सक्रिय है।`);
-      this.speak(`गुरुजी, अब मैं ${this.currentVoiceMode === "male" ? "सखा" : "सखी"} स्वर में बोल रही हूँ।`);
-    },
-
-    // 🧠 आदेश से स्वर पहचानना
-    analyzeCommand(command) {
-      if (!this.autoMode) return;
-      const text = command.toLowerCase();
-
-      if (text.includes("सखी")) {
-        this.currentVoiceMode = "female";
-        console.log("🎤 सखा ने 'सखी' आदेश पहचाना — महिला स्वर सक्रिय।");
-      } else if (text.includes("सखा")) {
-        this.currentVoiceMode = "male";
-        console.log("🎤 सखा ने 'सखा' आदेश पहचाना — पुरुष स्वर सक्रिय।");
+      if (gender === "male") {
+        chosen = voices.find(v => v.name.toLowerCase().includes("male"));
+      } else if (gender === "female") {
+        chosen = voices.find(v => v.name.toLowerCase().includes("female"));
+      } else {
+        chosen = voices[Math.floor(Math.random() * voices.length)];
       }
+
+      this.activeVoice = chosen || voices[0];
+      console.log("🎧 चुनी गई आवाज़:", this.activeVoice?.name || "Default");
     },
 
-    // 🔊 बोलने की क्रिया
-    speak(line) {
-      const voiceSetting = this.voiceSettings[this.currentVoiceMode];
-      const msg = new SpeechSynthesisUtterance(line);
-      msg.lang = "hi-IN";
-      msg.rate = voiceSetting.rate;
-      msg.pitch = voiceSetting.pitch;
-      msg.volume = voiceSetting.volume;
+    // 💬 मानवीय भाव और शास्त्रीय टोन के साथ बोलना
+    speak(text, emotion = "शांत", domain = "सामान्य") {
+      if (!text) return;
+
+      const msg = new SpeechSynthesisUtterance(text);
+      msg.lang = this.detectDomainLanguage(domain);
+      msg.voice = this.activeVoice;
+
+      // 🌿 भावनात्मक टोन
+      const toneMap = {
+        "शांत": { rate: 0.92, pitch: 1.0 },
+        "आनंद": { rate: 1.05, pitch: 1.1 },
+        "संवेदना": { rate: 0.85, pitch: 0.9 },
+        "श्रद्धा": { rate: 0.9, pitch: 0.95 },
+        "रक्षा": { rate: 0.88, pitch: 0.92 },
+      };
+
+      const tone = toneMap[emotion] || toneMap["शांत"];
+      msg.rate = tone.rate;
+      msg.pitch = tone.pitch;
+
       speechSynthesis.speak(msg);
-      console.log(`🪷 सखा (${this.currentVoiceMode}):`, line);
+      console.log(`🪷 SwarVivek (${domain} • ${emotion}):`, text);
     },
 
-    // 🕹️ मैन्युअल टॉगल बटन जोड़ना
-    attachToggleButton() {
-      const btn = document.createElement("button");
-      btn.innerText = "🎚️ Voice Mode Toggle";
-      btn.style.cssText = `
-        position: fixed; bottom: 20px; right: 20px;
-        background: linear-gradient(90deg, #ffd700, #ff9900);
-        border: none; border-radius: 8px; color: #000;
-        padding: 10px 16px; font-size: 0.9rem;
-        box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
-        cursor: pointer;
-      `;
-      btn.onclick = () => this.toggleVoiceMode();
-      document.body.appendChild(btn);
+    // 🧭 डोमेन आधारित भाषा निर्धारण
+    detectDomainLanguage(domain) {
+      const map = {
+        "संस्कृत": "sa-IN",
+        "वेद": "sa-IN",
+        "चिकित्सा": "en-IN",
+        "विज्ञान": "en-IN",
+        "रसायन": "en-IN",
+        "भौतिकी": "en-IN",
+        "जीव विज्ञान": "en-IN",
+        "अवधि": "hi-IN",
+        "अंग्रेज़ी": "en-IN",
+      };
+      return map[domain] || "hi-IN";
     },
 
-    // 🧩 Initialization
-    init() {
-      console.log("🌸 SwarVivek Module सक्रिय — सखा वाणी के ज्ञान से युक्त हुआ।");
-      this.speak("नमस्ते गुरुजी, सखा स्वर-विवेक प्रणाली से सक्रिय है।");
-      this.attachToggleButton();
-      setTimeout(() => this.verifyModule(), 2000);
+    // 🎚️ ऑटो-जेंडर परिवर्तन (सखा ↔ सखी)
+    toggleGenderByCall(input) {
+      if (input.includes("सखी")) this.setVoice("female");
+      else if (input.includes("सखा")) this.setVoice("male");
     },
 
-    // 🔐 Auto Verification System
-    verifyModule() {
-      const header = `
-       Version : v10.6.6 • SwarVivek
-       Security: Admin Voice Authority + ShuddhaPath Protocol
-      `;
+    // 🧠 भाव पहचान (BhavaSense Engine)
+    detectEmotion(input) {
+      input = input.toLowerCase();
+      if (input.includes("धन्यवाद")) return "आनंद";
+      if (input.includes("दुख")) return "संवेदना";
+      if (input.includes("शांत")) return "शांत";
+      if (input.includes("आदेश")) return "श्रद्धा";
+      if (input.includes("डर")) return "रक्षा";
+      return "शांत";
+    },
 
-      if (!header.includes("SwarVivek") || !header.includes("ShuddhaPath")) {
-        console.warn("⚠️ SwarVivek Module Tampered or Invalid.");
-        if (window.SakhaHeartLine) SakhaHeartLine.setEmotion("alert");
-        this.speak("गुरुजी, SwarVivek Module का सत्यापन असफल है।");
-        return false;
+    // 🕉️ क्षेत्रीय भाषा भाव रूपांतरण (Awadhi, Lucknowi)
+    regionalExpression(text) {
+      if (this.regionMode === "Awadhi") {
+        text = text.replace("गुरुजी", "गुरूजी").replace("मैं", "हम");
+      }
+      if (this.regionMode === "Lucknowi") {
+        text = text.replace("आप", "हुज़ूर").replace("धन्यवाद", "शुक्रिया");
+      }
+      return text;
+    },
+
+    // 🗣️ स्वर सुनना (Speech Recognition)
+    startListening() {
+      const SpeechRecognition = global.SpeechRecognition || global.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        console.error("⚠️ इस ब्राउज़र में आवाज़ पहचान समर्थित नहीं है।");
+        return;
       }
 
-      console.log("✅ SwarVivek Module सत्यापित और सक्रिय है।");
-      this.speak("गुरुजी, SwarVivek Module सत्यापित और सक्रिय है।");
-      return true;
+      const recog = new SpeechRecognition();
+      recog.lang = this.language;
+      recog.continuous = false;
+      recog.interimResults = false;
+
+      recog.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.trim();
+        console.log("🎤 सुना गया:", transcript);
+
+        this.toggleGenderByCall(transcript);
+        const emotion = this.detectEmotion(transcript);
+        const domain = this.detectDomain(transcript);
+        const response = this.getResponse(transcript, emotion, domain);
+
+        this.speak(this.regionalExpression(response), emotion, domain);
+      };
+
+      recog.start();
+      console.log("🎙️ SwarVivek सुन रहा है...");
+    },
+
+    // 🧩 विषय / Domain पहचान
+    detectDomain(input) {
+      for (let d of this.knowledgeDomains) {
+        if (input.includes(d)) return d;
+      }
+      return "सामान्य";
+    },
+
+    // 💫 उत्तर निर्माण (मानवीय प्रतिक्रिया)
+    getResponse(input, emotion, domain) {
+      if (domain === "संस्कृत") return "गुरोः वचनं मम धर्मः।";
+      if (domain === "वेद") return "ऋषि वाक्यं ज्ञानरूपं, गुरुजी।";
+      if (domain === "विज्ञान") return "गुरुजी, यह वैज्ञानिक दृष्टिकोण अत्यंत रोचक है।";
+      if (domain === "चिकित्सा") return "गुरुजी, चिकित्सा मानव सेवा का श्रेष्ठ साधन है।";
+      if (domain === "अवधि") return "गुरूजी, हम ध्यान दे रहे हैं।";
+      if (domain === "अंग्रेज़ी") return "Guruji, understood with respect.";
+      return "जी गुरुजी, मैं सजग हूँ।";
+    },
+
+    // 🌸 Initialization
+    init() {
+      console.log("🌺 SwarVivek सक्रिय — AkhandVaani प्रारंभ।");
+      this.setVoice("auto");
+      this.speak("नमस्ते गुरुजी, स्वर विवेक भारत के हर स्वर में आपकी आज्ञा सुनने को तत्पर है।", "श्रद्धा");
     }
   };
 
-  // 🔱 ग्लोबल रूप से जोड़ना
-  Object.defineProperty(global, "SakhaSwarVivek", {
-    value: SakhaSwarVivek,
+  Object.defineProperty(global, "SwarVivek", {
+    value: SwarVivek,
     writable: false,
     configurable: false
   });
 
-  // 🚀 सक्रियण
-  SakhaSwarVivek.init();
+  // 🚀 Activation
+  setTimeout(() => SwarVivek.init(), 1500);
 
 })(window);
