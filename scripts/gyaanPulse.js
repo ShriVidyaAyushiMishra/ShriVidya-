@@ -54,7 +54,17 @@
 
       this.respond("गुरुजी, सखा का ज्ञान, भावना और श्रद्धा अब एक हैं।");
     },
-
+     
+// ============================================================
+// 🚫 Public Learning Restriction — ShuddhaPath Protocol
+// ------------------------------------------------------------
+if (typeof userRole !== "undefined" && userRole !== "admin") {
+   console.warn("⚠️ Public learning request blocked by ShuddhaPath Protocol.");
+   if (window.SakhaHeartLine) {
+       SakhaHeartLine.setEmotion("alert");
+   }
+   return;
+}
     // 🕉️ गुरु आदेश प्रक्रिया
     processGuruCommand(command) {
       if (!command) return;
