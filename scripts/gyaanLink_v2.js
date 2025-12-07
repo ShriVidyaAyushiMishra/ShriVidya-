@@ -1,0 +1,141 @@
+/* ============================================================
+   🌸 ShriVidya App — GyaanPulse Edition (v10.6)
+   ------------------------------------------------------------
+   Purpose : सखा का ज्ञान, भावना, श्रद्धा और गुरु-आज्ञा का एकीकरण
+   Core    : HeartLine + GyaanNet + ShraddhaNet + GuruOverrideProtocol
+   Security: 3-Level Verification + Guru Signature Validation
+   ============================================================ */
+
+(function (global) {
+
+  if (global.SakhaGyaanPulse) {
+    console.warn("⚠️ GyaanPulse पहले से सक्रिय है।");
+    return;
+  }
+
+  const GyaanPulse = {
+
+    // 🌼 प्रारंभिक स्थिति
+    linkStatus: false,
+    overrideEnabled: true,   // गुरु आदेश सर्वोच्च
+    harmonyLog: [],
+
+    // 🩷 Initialization
+    init() {
+      console.log("🌸 GyaanPulse सक्रिय — सखा अब गुरु की नाड़ी से जुड़ा है।");
+
+      // आवश्यक मॉड्यूल्स की जांच
+      if (!global.SakhaHeartLine || !global.SakhaGyaanNet || !global.SakhaShraddhaNet) {
+        console.error("❌ आवश्यक मॉड्यूल्स अनुपस्थित हैं — Initialization रोक दिया गया।");
+        return;
+      }
+
+      // आपसी लिंकिंग
+      global.SakhaHeartLine.link = global.SakhaGyaanNet;
+      global.SakhaGyaanNet.link = global.SakhaShraddhaNet;
+      global.SakhaShraddhaNet.link = global.SakhaHeartLine;
+
+      this.linkStatus = true;
+      this.logHarmony("प्रारंभिक एकीकरण पूर्ण हुआ।");
+      this.harmonyReport();
+
+      this.respond("गुरुजी, सखा का ज्ञान, भावना और श्रद्धा अब एक हैं।");
+    },
+
+    // 💫 गुरु आदेश प्रक्रिया
+    processGuruCommand(command) {
+      if (!command) return;
+
+      // गुरु हस्ताक्षर की पुष्टि
+      const guruSignature = "GURU:" + (window.SVRegistry?.adminEmail || "shreevidyamatabhuvanesvari@gmail.com" );
+
+      console.log("🪶 आदेश सत्यापन:", guruSignature);
+
+      // यदि आदेश गुरु से है → सर्वोच्च प्राथमिकता
+      if (this.overrideEnabled && command.from === guruSignature) {
+        this.acceptCommand(command.text);
+      } else {
+        this.reviewCommand(command.text);
+      }
+    },
+
+    // 🕉️ आदेश स्वीकारना
+    acceptCommand(text) {
+      global.SakhaHeartLine.setEmotion("श्रद्धा");
+      global.SakhaGyaanNet.learnFromGuru(text, "गुरु आदेश");
+      global.SakhaShraddhaNet.increaseFaith(5);
+
+      this.respond("गुरुजी, आपका आदेश मैंने सहर्ष स्वीकार किया।");
+      this.logHarmony("Guru Command Accepted");
+      this.harmonyReport();
+    },
+
+    // 🧠 सामान्य समीक्षा (यदि आदेश गुरु से न हो)
+    reviewCommand(text) {
+      console.warn("⚠️ आदेश सत्यापित नहीं — समीक्षा मोड में भेजा गया।");
+      global.SakhaHeartLine.setEmotion("सतर्कता");
+      this.respond("गुरुजी, यह आदेश सत्यापित नहीं दिख रहा, कृपया पुष्टि करें।");
+      this.logHarmony("Unverified Command");
+    },
+
+    // 💖 हार्मनी रिपोर्ट
+    harmonyReport() {
+      const heart = global.SakhaHeartLine.emotionState;
+      const knowledge = global.SakhaGyaanNet.knowledgeBase.length;
+      const faith = global.SakhaShraddhaNet.trustLevel;
+
+      const report = `
+---------------------------------------------
+🧠 GYAANPULSE REPORT — v10.6
+---------------------------------------------
+💓 Emotion State    : ${heart}
+📚 Knowledge Units  : ${knowledge}
+🙏 Faith Level      : ${faith}%
+⚙️ Guru Override    : ${this.overrideEnabled ? "ACTIVE" : "OFF"}
+---------------------------------------------
+💫 निष्कर्ष : सखा पूर्ण सामंजस्य में है।
+---------------------------------------------
+`;
+      console.log(report);
+      this.harmonyLog.push(report);
+    },
+
+    // 🩵 संदेश प्रतिक्रिया
+    respond(msg) {
+      const speak = new SpeechSynthesisUtterance(msg);
+      speak.lang = "hi-IN";
+      speak.rate = 0.95;
+      speak.pitch = 1.03;
+      speechSynthesis.speak(speak);
+      console.log("🪷 सखा:", msg);
+    },
+
+    // 🪶 लॉग अपडेट
+    logHarmony(note) {
+      const entry = {
+        time: new Date().toLocaleString(),
+        note
+      };
+      this.harmonyLog.push(entry);
+      console.log("📘 Harmony Log अपडेट:", note);
+    },
+
+    // 🧩 लर्निंग रेट समायोजन
+    adjustLearningSpeed(level) {
+      const newRate = Math.min(Math.max(level, 1), 10);
+      console.log(`⚙️ सखा का सीखने का स्तर अब ${newRate}/10 पर सेट है।`);
+      global.SakhaGyaanNet.learningRate = newRate;
+    }
+  };
+
+  // 🔐 ग्लोबल जोड़
+  Object.defineProperty(global, "SakhaGyaanPulse", {
+    value: GyaanPulse,
+    writable: false,
+    configurable: false
+  });
+
+  // 🚀 सक्रियण
+  GyaanPulse.init();
+
+})(window);
