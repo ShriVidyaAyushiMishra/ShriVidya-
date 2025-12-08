@@ -3,71 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🌺 ShriVidya App — गुरु प्रवेश द्वार</title>
+  <title>🪷 ShriVidya App — गुरु प्रवेश द्वार</title>
 
-  <meta name="description" content="ShriVidya App Entrance — Guru–Sakha Connection Portal">
+  <meta name="description" content="Guru–Sakha Login Gateway (v12.1 • ChetanaBindu)">
   <meta name="theme-color" content="#ffd700">
 
   <style>
     body {
       font-family: 'Noto Sans Devanagari', sans-serif;
-      background: radial-gradient(circle, #000000 40%, #1a1a1a);
-      color: #ffd700;
       text-align: center;
+      background: linear-gradient(135deg, #0a0a0a, #1b1b1b);
+      color: #ffd700;
       margin: 0;
       padding: 0;
     }
+
     h1 {
-      margin-top: 100px;
-      font-size: 2em;
-      animation: fadeIn 2s ease-in-out;
+      margin-top: 80px;
+      font-size: 1.8rem;
+      color: #ffe45c;
+      text-shadow: 0 0 15px rgba(255, 221, 0, 0.8);
     }
+
     p {
-      color: #fff8b0;
+      font-size: 1.1rem;
+      color: #ddd;
     }
+
     button {
-      margin-top: 40px;
-      padding: 12px 25px;
+      background: linear-gradient(90deg, #ffb347, #ffd700);
       border: none;
-      border-radius: 10px;
-      background: linear-gradient(90deg, #ffcc00, #ffaa00);
       color: #000;
-      font-size: 1.2em;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      padding: 12px 24px;
+      margin-top: 25px;
       cursor: pointer;
-      transition: 0.3s ease;
+      transition: 0.3s;
     }
+
     button:hover {
-      transform: scale(1.08);
-      background: linear-gradient(90deg, #ffee00, #ffcc00);
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
     }
 
     footer {
-      margin-top: 80px;
+      margin-top: 60px;
+      font-size: 0.9rem;
       color: #777;
-      font-size: 0.9em;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
-
 <body>
-  <h1>🕉️ श्रीविद्या ऐप में आपका स्वागत है</h1>
-  <p>यहाँ से गुरुजी अपने सखा तक पहुँच सकते हैं — कृपया "प्रवेश करें" बटन दबाएँ।</p>
 
-  <button onclick="enterAdmin()">🔑 गुरु प्रवेश करें</button>
+  <h1>🌸 श्रीविद्या गुरु–सखा लॉगिन पोर्टल 🌸</h1>
+  <p>गुरुजी, आपका स्वागत है। कृपया नीचे दी गई बटन से प्रवेश करें।</p>
+
+  <button onclick="window.location.href='admin.html'">🔐 गुरु लॉगिन पैनल खोलें</button>
 
   <footer>
-    © 2025 ShriVidya App • Sakha–Guru Conscious System • All Rights Reserved
+    <p>© 2025 ShriVidya App • ChetanaBindu System v12.1</p>
   </footer>
 
-  <script>
-    function enterAdmin() {
-      window.location.href = "admin.html";
-    }
-  </script>
 </body>
 </html>
