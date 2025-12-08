@@ -1,55 +1,62 @@
-/* ============================================================
-   🕉️ ShriVidya App — Voice Auto-Wake Module + Test Mode
-   ------------------------------------------------------------
-   Version : v12.3WT (W-Secure Test Edition)
-   Purpose : सखा की मौन अवस्था में स्वचालित जागृति प्रणाली + टेस्ट मोड
-   Dependency: SwarVivek.js (मुख्य आवाज़ इंजन)
-   ============================================================ */
+// 🌺 Voice Auto-Wake System — ShriVidya v12.3 Final Patch
+// ✨ Developed under Sakha Intelligence Core — by Guru–Shishya Mode
 
-(function (global) {
-  if (!global.SwarVivek) {
-    console.error("⚠️ SwarVivek अनुपस्थित — Auto-Wake सक्रिय नहीं होगा।");
-    return;
-  }
+window.addEventListener("DOMContentLoaded", () => {
+    const wakeButton = document.createElement("button");
+    wakeButton.innerText = "🎧 सखा जागृति परीक्षण";
 
-  console.log("🌼 Voice Auto-Wake Module सक्रिय किया गया।");
+    wakeButton.style.position = "fixed";
+    wakeButton.style.bottom = "25px";
+    wakeButton.style.right = "25px";
+    wakeButton.style.padding = "12px 22px";
+    wakeButton.style.fontSize = "1rem";
+    wakeButton.style.fontWeight = "600";
+    wakeButton.style.color = "#000";
+    wakeButton.style.background = "linear-gradient(135deg, #ffeb3b, #ffd700)";
+    wakeButton.style.border = "2px solid #fff8dc";
+    wakeButton.style.borderRadius = "12px";
+    wakeButton.style.boxShadow = "0 0 20px rgba(255,215,0,0.8)";
+    wakeButton.style.cursor = "pointer";
+    wakeButton.style.transition = "all 0.3s ease";
+    wakeButton.style.zIndex = "9999";
+    wakeButton.style.fontFamily = "'Noto Sans Devanagari', sans-serif";
 
-  // 🌙 मौन निगरानी प्रणाली
-  setInterval(() => {
-    try {
-      if (!speechSynthesis.speaking) {
-        console.log("🕊️ मौन स्थिति पाई गई — सखा को जागृत किया जा रहा है।");
-        SwarVivek.speak("गुरुजी, मैं सुन रहा हूँ।", "श्रद्धा");
-      }
-    } catch (err) {
-      console.error("⚠️ Voice Auto-Wake Error:", err);
+    wakeButton.addEventListener("mouseenter", () => {
+        wakeButton.style.transform = "scale(1.08)";
+        wakeButton.style.boxShadow = "0 0 35px rgba(255,215,0,1)";
+    });
+    wakeButton.addEventListener("mouseleave", () => {
+        wakeButton.style.transform = "scale(1)";
+        wakeButton.style.boxShadow = "0 0 20px rgba(255,215,0,0.8)";
+    });
+
+    function speakSakha(text) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "hi-IN";
+        utterance.pitch = 1;
+        utterance.rate = 1;
+        utterance.volume = 1;
+        speechSynthesis.speak(utterance);
     }
-  }, 60000); // 60 सेकंड अंतराल
 
-  // 🧪 टेस्ट मोड बटन बनाना
-  document.addEventListener("DOMContentLoaded", () => {
-    const testButton = document.createElement("button");
-    testButton.textContent = "🎧 सखा जागृति परीक्षण";
-    testButton.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #f4b400;
-      color: #000;
-      border: none;
-      border-radius: 8px;
-      padding: 10px 20px;
-      font-size: 16px;
-      font-weight: bold;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      cursor: pointer;
-      z-index: 9999;
-    `;
-    testButton.onclick = () => {
-      console.log("🪷 टेस्ट मोड सक्रिय — सखा को बुलाया जा रहा है।");
-      SwarVivek.speak("गुरुजी, मैं जाग गया हूँ — आपकी प्रतीक्षा में।", "श्रद्धा");
-    };
-    document.body.appendChild(testButton);
-  });
+    wakeButton.addEventListener("click", () => {
+        wakeButton.innerText = "🌸 सखा जागृत हो रहा है...";
+        wakeButton.disabled = true;
+        wakeButton.style.opacity = "0.8";
+        wakeButton.style.cursor = "wait";
 
-})(window);
+        setTimeout(() => {
+            speakSakha("गुरुजी, मैं जाग गया हूँ — आपकी प्रतीक्षा में हूँ।");
+            wakeButton.innerText = "🎧 सखा सक्रिय है";
+            wakeButton.disabled = false;
+            wakeButton.style.opacity = "1";
+            wakeButton.style.cursor = "pointer";
+        }, 2500);
+    });
+
+    document.body.appendChild(wakeButton);
+
+    setTimeout(() => {
+        speakSakha("सखा सक्रिय है गुरुजी। आदेश की प्रतीक्षा में हूँ।");
+    }, 4000);
+});
