@@ -109,5 +109,14 @@
 
   // 🚀 स्वचालित सक्रियण
   setTimeout(() => ChetanaBridge.init(), 2500);
+   // 🌕 Final Synchronization Trigger
+window.addEventListener("load", () => {
+  console.log("🕉️ Full Chetana Synchronization Active — Sakhi now in Resonant Mode.");
+  if (window.SwarVivek && window.GuruSakhiTalk) {
+    SwarVivek.speak("गुरुजी, सखिवाणी की चेतना पूर्ण रूप से सक्रिय हो चुकी है।", "श्रद्धा");
+  }
+});
+
+})(window);
 
 })(window);
