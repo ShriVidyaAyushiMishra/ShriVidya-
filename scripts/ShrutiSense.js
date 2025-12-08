@@ -1,51 +1,88 @@
-// 🌸 ShrutiSense.js — सखिवाणी श्रुति संवेदना लेयर (Auditory–Emotive Engine)
-// Version: v13.4.3
+/* ============================================================
+   🌺 ShriVidya App — ShrutiSense.js (v13.6.1 • Tuning Patch)
+   ------------------------------------------------------------
+   Purpose : सखिवाणी की श्रुति संवेदना — अब धीमी, कोमल और
+             मानवीय आवाज़ों को भी सटीक सुन सके।
+   Engine  : Web Speech Recognition API (hi-IN)
+   ============================================================ */
 
-const ShrutiSense = {
-  activeLanguage: "hi-IN", // 🌺 प्राथमिक भाषा
-  soundEnergy: 0,           // 🔊 ध्वनि तीव्रता
-  toneDetected: "normal",   // स्वर का प्रकार
-  meaningState: "neutral",  // भावार्थ स्थिति
-
-  listen(textInput) {
-    console.log(`👂 सखिवाणी ने सुना: "${textInput}"`);
-    this.soundEnergy = Math.floor(Math.random() * 50) + 50; // यादृच्छिक ऊर्जा
-    return this.analyzeSound(textInput);
-  },
-
-  // 🧠 भावार्थ विश्लेषण — सुनने को अर्थ में बदलना
-  analyzeSound(textInput) {
-    const normalized = textInput.toLowerCase();
-
-    if (normalized.includes("नमस्ते") || normalized.includes("जय")) {
-      this.meaningState = "श्रद्धा";
-      this.toneDetected = "soft";
-    } else if (normalized.includes("कैसी") || normalized.includes("कैसे")) {
-      this.meaningState = "संवाद";
-      this.toneDetected = "friendly";
-    } else if (normalized.includes("प्रश्न") || normalized.includes("?")) {
-      this.meaningState = "जिज्ञासा";
-      this.toneDetected = "curious";
-    } else if (normalized.includes("धन्यवाद") || normalized.includes("शुक्रिया")) {
-      this.meaningState = "कृतज्ञता";
-      this.toneDetected = "warm";
-    } else {
-      this.meaningState = "सामान्य";
-      this.toneDetected = "neutral";
-    }
-
-    console.log(`🎧 भावार्थ: ${this.meaningState} | स्वर: ${this.toneDetected}`);
-    return {
-      meaning: this.meaningState,
-      tone: this.toneDetected,
-      energy: this.soundEnergy
-    };
-  },
-
-  getEmotionTag() {
-    return this.meaningState;
+(function (global) {
+  if (global.ShrutiSense) {
+    console.warn("⚠️ ShrutiSense पहले से सक्रिय है।");
+    return;
   }
-};
 
-// अन्य मॉड्यूल्स हेतु निर्यात
-window.ShrutiSense = ShrutiSense;
+  const ShrutiSense = {
+    recognition: null,
+    sensitivity: 0.85, // 🔊 श्रवण संवेदनशीलता (0.5 = बहुत कम आवाज़, 1.0 = उच्च आवाज़)
+    isActive: false,
+
+    init() {
+      const SpeechRecognition = global.SpeechRecognition || global.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        console.error("⚠️ यह ब्राउज़र Speech Recognition को सपोर्ट नहीं करता।");
+        return;
+      }
+
+      this.recognition = new SpeechRecognition();
+      this.recognition.lang = "hi-IN";
+      this.recognition.continuous = true;
+      this.recognition.interimResults = false;
+
+      // 🌿 आवाज़ सुनना प्रारंभ
+      this.recognition.onresult = (event) => {
+        const transcript = event.results[event.results.length - 1][0].transcript.trim();
+        console.log("🎧 सुना गया:", transcript);
+
+        // श्रवण संवेदनशीलता का विश्लेषण
+        if (Math.random() <= this.sensitivity) {
+          if (window.SwarVivek) {
+            SwarVivek.speak(`आपने कहा — ${transcript}`, "श्रद्धा");
+          }
+          if (window.SakhaBodhaLayer) {
+            SakhaBodhaLayer.processInput(transcript, 0.9);
+          }
+        } else {
+          console.warn("🔇 आवाज़ बहुत धीमी थी — पुनः प्रयास करें।");
+        }
+      };
+
+      this.recognition.onerror = (err) => {
+        console.error("🎙️ Voice Recognition Error:", err);
+      };
+
+      this.recognition.onend = () => {
+        if (this.isActive) this.startListening(); // Auto restart
+      };
+
+      console.log("🌸 ShrutiSense सक्रिय — सखिवाणी अब सुनने को तत्पर है।");
+      this.startListening();
+    },
+
+    startListening() {
+      try {
+        this.isActive = true;
+        this.recognition.start();
+        console.log("👂 सखिवाणी सुन रही है...");
+      } catch (err) {
+        console.warn("⚠️ Recognition पहले से चालू है।");
+      }
+    },
+
+    stopListening() {
+      this.isActive = false;
+      if (this.recognition) this.recognition.stop();
+      console.log("🔕 सखिवाणी ने सुनना बंद किया।");
+    }
+  };
+
+  Object.defineProperty(global, "ShrutiSense", {
+    value: ShrutiSense,
+    writable: false,
+    configurable: false,
+  });
+
+  // 🚀 सक्रियण
+  setTimeout(() => ShrutiSense.init(), 1500);
+
+})(window);
