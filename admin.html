@@ -79,8 +79,48 @@
 <div id="adminLoginPanel" style="text-align:center; margin-top:50px;">
   <h2>🪷 श्रीविद्या App — गुरु प्रवेश</h2>
   <p>कृपया अपनी पहचान कुंजी दर्ज करें:</p>
-
   <input 
+    <!-- 🔊 Voice Login (ShabdaSmaran Mode) -->
+<button id="voiceLoginBtn" onclick="startVoiceLogin()" 
+style="padding:10px 25px; font-size:16px; background-color:#4CAF50; color:white; border:none; border-radius:8px; margin-top:10px;">
+🎙️ Voice Login सक्रिय करें
+</button>
+
+<script>
+function startVoiceLogin() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert("⚠️ आपका ब्राउज़र Voice Login सपोर्ट नहीं करता।");
+    return;
+  }
+
+  const recog = new SpeechRecognition();
+  recog.lang = "hi-IN";
+  recog.continuous = false;
+  recog.interimResults = false;
+
+  recog.onresult = (event) => {
+    const transcript = event.results[0][0].transcript.trim();
+    console.log("🎤 सुना गया:", transcript);
+
+    if (transcript.includes("ॐ श्री गणेशाय नमः")) {
+      document.getElementById("guruKeyInput").value = "OmShreeVidya@2025"; // ← आपका पासवर्ड
+      if (window.SakhaBodhaLayer) {
+        SakhaBodhaLayer.verifyGuruKey("OmShreeVidya@2025");
+      }
+    } else {
+      alert("⚠️ Voice Key मेल नहीं खाई। कृपया पुनः प्रयास करें।");
+    }
+  };
+
+  recog.onerror = (e) => {
+    console.error("🎙️ Voice Recognition Error:", e);
+  };
+
+  recog.start();
+  console.log("🎙️ ShabdaSmaran सक्रिय — आपकी वाणी सुन रहा है...");
+}
+  </script>
     type="AnujKumar@6961" 
     id="guruKeyInput" 
     placeholder="अपनी गुरु कुंजी यहाँ दर्ज करें"
