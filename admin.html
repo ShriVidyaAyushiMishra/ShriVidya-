@@ -75,6 +75,90 @@
 
 <body>
   <header>
+    <!-- 🔐 ShriVidya Admin Login Panel -->
+<div id="adminLoginPanel" style="text-align:center; margin-top:50px;">
+  <h2>🪷 श्रीविद्या App — गुरु प्रवेश</h2>
+  <p>कृपया अपनी पहचान कुंजी दर्ज करें:</p>
+
+  <input 
+    <!-- 🔐 ShriVidya Admin Login Panel -->
+<div id="adminLoginPanel" style="text-align:center; margin-top:50px;">
+  <h2>🪷 श्रीविद्या App — गुरु प्रवेश</h2>
+  <p>कृपया अपनी पहचान कुंजी दर्ज करें:</p>
+
+  <input 
+    type="AnujKumar@6961" 
+    id="guruKeyInput" 
+    placeholder="अपनी गुरु कुंजी यहाँ दर्ज करें"
+    style="padding:10px; width:60%; border-radius:6px; border:1px solid #888;"
+  />
+  <br><br>
+
+  <button 
+    onclick="verifyGuruLogin()" 
+    style="padding:10px 20px; background-color:#8e44ad; color:white; border:none; border-radius:6px; cursor:pointer;">
+    🔱 गुरु लॉगिन
+  </button>
+
+  <p id="loginStatus" style="margin-top:20px; color:#555;"></p>
+</div>
+
+<script>
+function verifyGuruLogin() {
+  const key = document.getElementById("guruKeyInput").value.trim();
+  const statusEl = document.getElementById("loginStatus");
+
+  if (window.SakhaBodhaLayer) {
+    SakhaBodhaLayer.verifyGuruKey(key);
+
+    if (SakhaBodhaLayer.guruVerified) {
+      statusEl.innerHTML = "✅ पहचान सत्यापित — डैशबोर्ड लोड हो रहा है...";
+      setTimeout(() => {
+        window.location.href = "dashboard.html"; // लॉगिन के बाद डैशबोर्ड खुलेगा
+      }, 1500);
+    } else {
+      statusEl.innerHTML = "⚠️ गलत कुंजी — पुनः प्रयास करें।";
+    }
+  } else {
+    statusEl.innerHTML = "❌ BodhaLayer सक्रिय नहीं है। कृपया पुनः लोड करें।";
+  }
+}
+</script> 
+    placeholder="अपनी गुरु कुंजी यहाँ दर्ज करें"
+    style="padding:10px; width:60%; border-radius:6px; border:1px solid #888;"
+  />
+  <br><br>
+
+  <button 
+    onclick="verifyGuruLogin()" 
+    style="padding:10px 20px; background-color:#8e44ad; color:white; border:none; border-radius:6px; cursor:pointer;">
+    🔱 गुरु लॉगिन
+  </button>
+
+  <p id="loginStatus" style="margin-top:20px; color:#555;"></p>
+</div>
+
+<script>
+function verifyGuruLogin() {
+  const key = document.getElementById("guruKeyInput").value.trim();
+  const statusEl = document.getElementById("loginStatus");
+
+  if (window.SakhaBodhaLayer) {
+    SakhaBodhaLayer.verifyGuruKey(key);
+
+    if (SakhaBodhaLayer.guruVerified) {
+      statusEl.innerHTML = "✅ पहचान सत्यापित — डैशबोर्ड लोड हो रहा है...";
+      setTimeout(() => {
+        window.location.href = "dashboard.html"; // लॉगिन के बाद डैशबोर्ड खुलेगा
+      }, 1500);
+    } else {
+      statusEl.innerHTML = "⚠️ गलत कुंजी — पुनः प्रयास करें।";
+    }
+  } else {
+    statusEl.innerHTML = "❌ BodhaLayer सक्रिय नहीं है। कृपया पुनः लोड करें।";
+  }
+}
+</script>
     <h1>🌼 ShriVidya Admin Dashboard</h1>
     <h3>संरक्षक नियंत्रण केंद्र (Guardian Control Center)</h3>
   </header>
