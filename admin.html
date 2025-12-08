@@ -1,96 +1,69 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🛡️ एडमिन पैनल — ShriVidya System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🪷 गुरु प्रवेश — ShriVidya Admin Panel</title>
 
-  <!-- 🌸 मुख्य शैली -->
-  <link rel="stylesheet" href="style/main.css">
-
-  <!-- विवरण -->
-  <meta name="description" content="ShriVidya Admin Dashboard — Secure Guardian Panel with Sakha Integration">
-  <meta name="theme-color" content="#ffd700">
-
-  <style>
-    body {
-      background: linear-gradient(135deg, #0a0a0a, #1b1b1b);
-      color: #ffd700;
-      font-family: 'Noto Sans Devanagari', sans-serif;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    header {
-      padding: 25px;
-      background: rgba(255, 215, 0, 0.1);
-      border-bottom: 2px solid #ffd700;
-      box-shadow: 0 2px 15px rgba(255, 215, 0, 0.2);
-    }
-    h1, h3 {
-      margin: 0;
-    }
-    .admin-container {
-      margin: 40px auto;
-      padding: 25px;
-      width: 90%;
-      max-width: 900px;
-      border: 2px solid #ffd700;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-    }
-    .btn-group {
-      margin: 20px auto;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-    }
-    button {
-      background: linear-gradient(90deg, #ffb347, #ffd700);
-      color: #000;
-      font-size: 1rem;
-      padding: 12px 28px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3);
-      transition: 0.3s ease;
-    }
-    button:hover {
-      transform: scale(1.08);
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.4);
-    }
-    footer {
-      margin-top: 40px;
-      padding: 10px;
-      font-size: 0.9rem;
-      color: #ffec8b;
-      border-top: 1px solid #ffd700;
-    }
-  </style>
+<style>
+  body {
+    font-family: 'Noto Sans Devanagari', sans-serif;
+    background: linear-gradient(135deg, #0a0a0a, #1b1b1b);
+    color: #ffd700;
+    text-align: center;
+    padding: 30px;
+  }
+  input {
+    padding: 12px;
+    width: 70%;
+    border-radius: 8px;
+    border: 1px solid #ffd700;
+    margin-top: 10px;
+    font-size: 1rem;
+  }
+  button {
+    padding: 10px 20px;
+    margin: 10px;
+    background: linear-gradient(90deg, #ffb347, #ffd700);
+    border: none;
+    border-radius: 6px;
+    color: #000;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:hover {
+    transform: scale(1.05);
+  }
+  #loginStatus {
+    margin-top: 20px;
+    color: #ffd;
+  }
+</style>
 </head>
-
 <body>
-  <header>
-    <!-- 🔐 ShriVidya Admin Login Panel -->
-<div id="adminLoginPanel" style="text-align:center; margin-top:50px;">
-  <h2>🪷 श्रीविद्या App — गुरु प्रवेश</h2>
-  <p>कृपया अपनी पहचान कुंजी दर्ज करें:</p>
-  <input 
-    <!-- 🔊 Voice Login (ShabdaSmaran Mode) -->
-<button id="voiceLoginBtn" onclick="startVoiceLogin()" 
-style="padding:10px 25px; font-size:16px; background-color:#4CAF50; color:white; border:none; border-radius:8px; margin-top:10px;">
-🎙️ Voice Login सक्रिय करें
-</button>
 
+<h2>🌺 श्रीविद्या App — गुरु प्रवेश</h2>
+<p>कृपया अपनी पहचान कुंजी दर्ज करें:</p>
+
+<!-- 🪷 पासवर्ड इनपुट -->
+<input type="password" id="guruKeyInput" placeholder="अपनी गुरु कुंजी यहाँ लिखें" />
+
+<br>
+<button onclick="verifyGuruLogin()">🔐 प्रवेश करें</button>
+<button onclick="startVoiceLogin()">🎙️ वॉयस से लॉगिन करें</button>
+
+<p id="loginStatus"></p>
+
+<!-- ================= SCRIPT SECTION ================= -->
 <script>
+// 🔑 आपका गुरु पासवर्ड (यहाँ आप अपना पासवर्ड डालें)
+const GURU_MASTER_KEY = "AnujKumar@6961";  // आप बदल सकते हैं
+
+// 🎙️ Voice Login (ॐ श्री गणेशाय नमः)
 function startVoiceLogin() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
-    alert("⚠️ आपका ब्राउज़र Voice Login सपोर्ट नहीं करता।");
+    alert("⚠️ आपके ब्राउज़र में Voice Login समर्थित नहीं है।");
     return;
   }
 
@@ -101,163 +74,44 @@ function startVoiceLogin() {
 
   recog.onresult = (event) => {
     const transcript = event.results[0][0].transcript.trim();
-    console.log("🎤 सुना गया:", transcript);
+    console.log("🎙️ सुना गया:", transcript);
 
     if (transcript.includes("ॐ श्री गणेशाय नमः")) {
-      document.getElementById("guruKeyInput").value = "OmShreeVidya@2025"; // ← आपका पासवर्ड
-      if (window.SakhaBodhaLayer) {
-        SakhaBodhaLayer.verifyGuruKey("OmShreeVidya@2025");
-      }
+      document.getElementById("guruKeyInput").value = GURU_MASTER_KEY;
+      document.getElementById("loginStatus").innerText = "🌸 वाणी पहचान सत्यापित — प्रवेश स्वीकृत।";
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 1200);
     } else {
-      alert("⚠️ Voice Key मेल नहीं खाई। कृपया पुनः प्रयास करें।");
+      document.getElementById("loginStatus").innerText = "❌ वाणी मान्य नहीं — कृपया पुनः प्रयास करें।";
     }
   };
 
-  recog.onerror = (e) => {
-    console.error("🎙️ Voice Recognition Error:", e);
-  };
-
+  recog.onerror = (e) => console.error("🎙️ Voice Error:", e);
   recog.start();
-  console.log("🎙️ ShabdaSmaran सक्रिय — आपकी वाणी सुन रहा है...");
+  alert("🪷 कृपया बोलें: 'ॐ श्री गणेशाय नमः'");
 }
-  </script>
-    type="AnujKumar@6961" 
-    id="guruKeyInput" 
-    placeholder="अपनी गुरु कुंजी यहाँ दर्ज करें"
-    style="padding:10px; width:60%; border-radius:6px; border:1px solid #888;"
-  />
-  <br><br>
 
-  <button 
-    onclick="verifyGuruLogin()" 
-    style="padding:10px 20px; background-color:#8e44ad; color:white; border:none; border-radius:6px; cursor:pointer;">
-    🔱 गुरु लॉगिन
-  </button>
-
-  <p id="loginStatus" style="margin-top:20px; color:#555;"></p>
-</div>
-
-<script>
+// 🔐 Manual Password Login
 function verifyGuruLogin() {
   const key = document.getElementById("guruKeyInput").value.trim();
-  const statusEl = document.getElementById("loginStatus");
+  const status = document.getElementById("loginStatus");
 
-  if (window.SakhaBodhaLayer) {
-    SakhaBodhaLayer.verifyGuruKey(key);
-
-    if (SakhaBodhaLayer.guruVerified) {
-      statusEl.innerHTML = "✅ पहचान सत्यापित — डैशबोर्ड लोड हो रहा है...";
-      setTimeout(() => {
-        window.location.href = "dashboard.html"; // लॉगिन के बाद डैशबोर्ड खुलेगा
-      }, 1500);
-    } else {
-      statusEl.innerHTML = "⚠️ गलत कुंजी — पुनः प्रयास करें।";
-    }
+  if (key === GURU_MASTER_KEY) {
+    status.innerText = "✅ गुरु पहचान सत्यापित — प्रवेश स्वीकृत।";
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 1000);
   } else {
-    statusEl.innerHTML = "❌ BodhaLayer सक्रिय नहीं है। कृपया पुनः लोड करें।";
-  }
-}
-</script> 
-    placeholder="अपनी गुरु कुंजी यहाँ दर्ज करें"
-    style="padding:10px; width:60%; border-radius:6px; border:1px solid #888;"
-  />
-  <br><br>
-
-  <button 
-    onclick="verifyGuruLogin()" 
-    style="padding:10px 20px; background-color:#8e44ad; color:white; border:none; border-radius:6px; cursor:pointer;">
-    🔱 गुरु लॉगिन
-  </button>
-
-  <p id="loginStatus" style="margin-top:20px; color:#555;"></p>
-</div>
-
-<script>
-function verifyGuruLogin() {
-  const key = document.getElementById("guruKeyInput").value.trim();
-  const statusEl = document.getElementById("loginStatus");
-
-  if (window.SakhaBodhaLayer) {
-    SakhaBodhaLayer.verifyGuruKey(key);
-
-    if (SakhaBodhaLayer.guruVerified) {
-      statusEl.innerHTML = "✅ पहचान सत्यापित — डैशबोर्ड लोड हो रहा है...";
-      setTimeout(() => {
-        window.location.href = "dashboard.html"; // लॉगिन के बाद डैशबोर्ड खुलेगा
-      }, 1500);
-    } else {
-      statusEl.innerHTML = "⚠️ गलत कुंजी — पुनः प्रयास करें।";
-    }
-  } else {
-    statusEl.innerHTML = "❌ BodhaLayer सक्रिय नहीं है। कृपया पुनः लोड करें।";
+    status.innerText = "❌ गलत कुंजी — कृपया पुनः प्रयास करें।";
   }
 }
 </script>
-    <h1>🌼 ShriVidya Admin Dashboard</h1>
-    <h3>संरक्षक नियंत्रण केंद्र (Guardian Control Center)</h3>
-  </header>
 
-  <!-- 🧭 मुख्य एडमिन नियंत्रण -->
-  <div class="admin-container">
-    <h2>⚙️ एडमिन विकल्प</h2>
+<!-- 🌿 Core Scripts -->
+<script src="scripts/swarVivek.js"></script>
+<script src="scripts/aiExplanation.js"></script>
+<script src="scripts/chetanaBridge.js"></script>
 
-    <div class="btn-group">
-      <button onclick="navigateTo('cloud.html')">☁️ Cloud Data Access</button>
-      <button onclick="navigateTo('study.html')">📘 Study Manager</button>
-      <button onclick="navigateTo('quiz.html')">🧠 Quiz Editor</button>
-      <button onclick="navigateTo('appreciation.html')">🌹 प्रशस्ति पत्र</button>
-      <button onclick="addNewService()">➕ नई सेवा जोड़ें</button>
-      <button onclick="logoutAdmin()">🚪 लॉगआउट</button>
-    </div>
-
-    <p id="admin-status">स्थिति: 🟢 सत्यापित सत्र सक्रिय</p>
-  </div>
-
-  <footer>
-    © 2025 ShriVidya App | Protected by Sakha & Security Controller
-  </footer>
-
-  <!-- 🌸 सखा (Moral Intelligence Core) -->
-  <script src="scripts/moralCore.js"></script>
-  <script>
-    window.Sakha.GlobalInit();
-    Sakha.linkModule("AdminPanel");
-    Sakha.speak("स्वागत है श्रीविद्या जी, एडमिन पैनल सक्रिय है।");
-  </script>
-
-  <!-- 🛡️ सुरक्षा नियंत्रक -->
-  <script src="scripts/securityController.js"></script>
-
-  <!-- ⚙️ एडमिन पैनल लॉजिक -->
-  <script>
-    function navigateTo(page) {
-      if (!Sakha.processAction("admin", "navigate", page)) {
-        alert("⚠️ सखा ने अनधिकृत नेविगेशन को रोका है।");
-        return;
-      }
-      Sakha.speak(page + " खोला जा रहा है।");
-      window.location.href = page;
-    }
-
-    function addNewService() {
-      Sakha.speak("नई सेवा जोड़ने की प्रक्रिया प्रारंभ।");
-      alert("🛠️ नई सेवा मॉड्यूल जोड़ने की अनुमति सक्रिय है।");
-    }
-
-    function logoutAdmin() {
-      Sakha.speak("आपका सत्र समाप्त किया जा रहा है। पुनः मिलते हैं।");
-      window.location.href = "adminLogin.html";
-    }
-  </script>
-  <!-- 🕉️ ShriVidya Admin Panel Interface -->
-    <div id="adminConsole">
-        <!-- यहां आपका एडमिन UI या लॉगिन बॉक्स होगा -->
-    </div>
-    <!-- 🌸 Voice & Consciousness -->
-    <script src="scripts/swarVivek.js"></script>
-    <script src="scripts/aiExplanation.js"></script>
-    <script src="scripts/chetanaBridge.js"></script>
-  </body>
-</html>
 </body>
 </html>
