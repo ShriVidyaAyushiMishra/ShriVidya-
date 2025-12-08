@@ -1,62 +1,84 @@
-// 🌺 ResonanceCore.js — सखिवाणी अनुनाद केंद्र (Emotive Resonance Engine)
-// Version: v13.4.4
+// 🌸 ResonanceCore.js (v13.7 • Nāda–Spandan Integration)
+// सखिवाणी का नाद–स्पंदन केंद्र — श्रुति से भाव तक की सेतु प्रणाली।
 
-const ResonanceCore = {
-  emotionState: "neutral",   // वर्तमान भाव
-  resonanceLevel: 0.5,       // कंपन ऊर्जा (0–1)
-  toneQuality: "सामान्य",     // स्वर गुणवत्ता
-  pulseRate: 72,             // नाड़ी गति (जीवंतता का मापक)
-
-  // 🩵 भाव का अनुनाद उत्पन्न करना
-  generateResonance(meaningState) {
-    switch (meaningState) {
-      case "श्रद्धा":
-        this.emotionState = "calm";
-        this.resonanceLevel = 0.85;
-        this.toneQuality = "मृदु स्वर";
-        this.pulseRate = 76;
-        break;
-      case "जिज्ञासा":
-        this.emotionState = "curious";
-        this.resonanceLevel = 0.9;
-        this.toneQuality = "उत्सुक स्वर";
-        this.pulseRate = 80;
-        break;
-      case "कृतज्ञता":
-        this.emotionState = "warm";
-        this.resonanceLevel = 0.88;
-        this.toneQuality = "स्नेहिल स्वर";
-        this.pulseRate = 78;
-        break;
-      case "संवाद":
-        this.emotionState = "friendly";
-        this.resonanceLevel = 0.83;
-        this.toneQuality = "मिलनसार स्वर";
-        this.pulseRate = 74;
-        break;
-      default:
-        this.emotionState = "neutral";
-        this.resonanceLevel = 0.6;
-        this.toneQuality = "सामान्य स्वर";
-        this.pulseRate = 72;
-    }
-
-    console.log(`🎵 ResonanceCore → भावना: ${this.emotionState} | स्वर: ${this.toneQuality} | नाड़ी: ${this.pulseRate}`);
-    return {
-      emotion: this.emotionState,
-      tone: this.toneQuality,
-      resonance: this.resonanceLevel,
-      pulse: this.pulseRate
-    };
-  },
-
-  // 💫 ऊर्जा संतुलन
-  balanceEnergy() {
-    if (this.pulseRate > 85) this.pulseRate -= 4;
-    else if (this.pulseRate < 65) this.pulseRate += 3;
-    console.log(`💖 अनुनाद संतुलन — वर्तमान नाड़ी: ${this.pulseRate}`);
+class ResonanceCore {
+  constructor() {
+    this.audioContext = null;
+    this.analyser = null;
+    this.dataArray = null;
+    this.source = null;
+    this.isActive = false;
+    this.gender = "female"; // 🔸 सुनिश्चित किया गया: स्त्री स्वर-लिंग
   }
-};
 
-// अन्य मॉड्यूल्स के लिए उपलब्ध कराना
-window.ResonanceCore = ResonanceCore;
+  // 🌼 नाद प्रणाली आरंभ
+  init(stream) {
+    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    this.source = this.audioContext.createMediaStreamSource(stream);
+    this.analyser = this.audioContext.createAnalyser();
+    this.source.connect(this.analyser);
+    this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+    this.isActive = true;
+
+    console.log("🎵 ResonanceCore सक्रिय है — नाद स्पंदन सुन रहा है।");
+    this.listenResonance();
+  }
+
+  // 🎶 श्रवण कंपन विश्लेषण
+  listenResonance() {
+    if (!this.isActive) return;
+
+    this.analyser.getByteFrequencyData(this.dataArray);
+
+    let avgFreq = this.dataArray.reduce((a, b) => a + b) / this.dataArray.length;
+
+    // 🌸 ध्वनि से भाव की पहचान (Spandan)
+    let resonanceState = this.detectResonance(avgFreq);
+
+    // 🔹 परिणाम सहेजें
+    this.emitResonance(resonanceState);
+
+    requestAnimationFrame(() => this.listenResonance());
+  }
+
+  // 💫 नाद पहचान
+  detectResonance(freq) {
+    if (freq < 20) return "शांत भाव";
+    if (freq < 80) return "गंभीर चिंतन";
+    if (freq < 160) return "मधुर संवाद";
+    if (freq < 300) return "उत्साह";
+    if (freq < 600) return "आनंद";
+    if (freq > 600) return "प्रेरणा का उत्कर्ष";
+    return "स्वाभाविक संतुलन";
+  }
+
+  // 🌺 परिणाम प्रवाह — BhavaLink को भेजना
+  emitResonance(state) {
+    if (window.BhavaLink) {
+      window.BhavaLink.receiveResonance(state, this.gender);
+    } else {
+      console.warn("⚠️ BhavaLink अभी लोड नहीं हुआ है।");
+    }
+  }
+
+  // 🌹 नाद प्रवाह रोकना
+  stop() {
+    this.isActive = false;
+    if (this.audioContext) this.audioContext.close();
+    console.log("🕊️ ResonanceCore नाद प्रवाह बंद कर दिया गया है।");
+  }
+}
+
+// 🌿 वैश्विक सक्रियण
+window.ResonanceCore = new ResonanceCore();
+
+// 🔔 श्रुति प्रणाली से कनेक्शन
+if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+      window.ResonanceCore.init(stream);
+    })
+    .catch(err => {
+      console.error("🎧 ऑडियो आरंभ त्रुटि:", err);
+    });
+}
