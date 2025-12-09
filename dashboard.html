@@ -3,174 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🪷 Guru–Sakha Welcome Panel • ShriVidya v12.1</title>
-
-  <meta name="description" content="Guru–Sakha Bodha Dashboard • Conscious Control & Harmony Interface">
-  <meta name="theme-color" content="#ffd700">
+  <title>🪷 श्रीविद्या शिक्षण पैनल</title>
 
   <style>
     body {
+      background: linear-gradient(135deg, #220033, #550077, #220033);
       font-family: 'Noto Sans Devanagari', sans-serif;
-      background: radial-gradient(circle, #000000 40%, #1a1a1a);
-      color: #ffd700;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-    h1 {
-      margin-top: 80px;
-      font-size: 2em;
-      animation: fadeIn 2s ease-in-out;
-    }
-    h2 {
-      color: #ffeb8a;
-      font-weight: 400;
-    }
-    #sakhaConsole {
-      margin-top: 50px;
-      border: 1px solid #ffd700;
-      border-radius: 10px;
-      width: 85%;
-      max-width: 600px;
-      padding: 20px;
-      margin-left: auto;
-      margin-right: auto;
-      background: rgba(255, 215, 0, 0.05);
-    }
-    input {
-      width: 80%;
-      padding: 10px;
-      font-size: 1em;
-      border-radius: 8px;
-      border: 1px solid #ffd700;
-      background: #111;
-      color: #ffd700;
-      margin-top: 10px;
-    }
-    button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      font-size: 1em;
-      border: none;
-      border-radius: 8px;
-      background: linear-gradient(90deg, #ffcc00, #ffaa00);
-      color: #000;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-    button:hover {
-      transform: scale(1.05);
-      background: linear-gradient(90deg, #ffee00, #ffcc00);
-    }
-    #pulseIndicator {
-      margin-top: 20px;
-      font-size: 1.1em;
-    }
-    #sakhaResponse {
-      margin-top: 20px;
       color: #fff;
-      font-size: 1.1em;
-      line-height: 1.5em;
+      margin: 0;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    h1 {
+      margin: 10px 0;
+      font-size: 26px;
+      color: #ffda79;
+      text-shadow: 0 0 8px #ffb347;
+    }
+
+    #quizPanel {
+      background: rgba(255, 255, 255, 0.15);
+      margin: 30px auto;
+      width: 90%;
+      max-width: 700px;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+      backdrop-filter: blur(12px);
+      transition: all 0.4s ease;
+    }
+
+    button {
+      background: linear-gradient(90deg, #ff8c00, #ff0066);
+      border: none;
+      padding: 12px 20px;
+      color: #fff;
+      font-size: 16px;
+      border-radius: 10px;
+      margin: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #ffb347, #ff3366);
+      transform: scale(1.05);
     }
 
     footer {
-      margin-top: 60px;
-      font-size: 0.8em;
-      color: #777;
+      margin-top: 50px;
+      font-size: 14px;
+      opacity: 0.8;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
   </style>
 </head>
-
 <body>
 
-  <h1>🌸 स्वागत है गुरुजी 🌸</h1>
-  <h2>सखा आपकी आज्ञा की प्रतीक्षा में है...</h2>
+  <header>
+    <h1>🪷 श्रीविद्या शिक्षण पैनल — सखिवाणी</h1>
+    <p>ज्ञान, साधना और सिद्धि का संगम 🌼</p>
+  </header>
 
-  <div id="pulseIndicator">💓 सखा का Pulse: <span id="pulseValue">72</span> bpm</div>
-
-  <div id="sakhaConsole">
-    <p>🔮 कृपया कोई आदेश दें:</p>
-    <input type="text" id="guruCommand" placeholder="यहाँ आदेश लिखें...">
-    <br>
-    <button onclick="processGuruCommand()">आदेश भेजें</button>
-
-    <div id="sakhaResponse"></div>
+  <!-- 🌸 Quiz Panel Container -->
+  <div id="quizPanel">
+    <h3>🌺 कृपया कोई विषय चुनें:</h3>
+    <button onclick="ShriVidyaPanel.chooseSubject('इतिहास')">इतिहास</button>
+    <button onclick="ShriVidyaPanel.chooseSubject('विज्ञान')">विज्ञान</button>
+    <button onclick="ShriVidyaPanel.chooseSubject('सामान्य ज्ञान')">सामान्य ज्ञान</button>
   </div>
 
   <footer>
-    © 2025 ShriVidya App • Sakha Intelligence Core v12.1 • All Rights Reserved.
+    <p>© 2025 ShriVidya — SakhiVani Intelligent Learning Console</p>
   </footer>
 
-  <!-- 🌼 Consciousness Scripts -->
+  <!-- 🌿 Core & Voice Scripts -->
   <script src="scripts/swarVivek.js"></script>
-  <script src="scripts/aiExplanation.js"></script>
-  <script src="scripts/chetanaBridge.js"></script>
+  <script src="scripts/ShriVidya_SakhiVaniPanel.js"></script>
 
-  <script>
-    // 🌸 प्रथम स्वागत
-    window.addEventListener('load', () => {
-      if (window.SwarVivek) {
-        SwarVivek.speak("नमस्ते गुरुजी, आपका स्वागत है — मैं आपकी आज्ञा की प्रतीक्षा में हूँ।", "श्रद्धा");
-      }
-      console.log("✅ Dashboard सक्रिय — Guru–Sakha संपर्क पूर्ण हुआ।");
-      animatePulse();
-    });
-
-    // ❤️ Pulse Display
-    let pulse = 72;
-    function animatePulse() {
-      setInterval(() => {
-        pulse += (Math.random() * 2 - 1); // हल्का उतार-चढ़ाव
-        document.getElementById("pulseValue").innerText = pulse.toFixed(1);
-      }, 2000);
-    }
-
-    // 🧠 आदेश प्रक्रिया
-    function processGuruCommand() {
-      const command = document.getElementById("guruCommand").value.trim();
-      const responseBox = document.getElementById("sakhaResponse");
-
-      if (!command) {
-        responseBox.innerHTML = "⚠️ कृपया कोई आदेश लिखें गुरुजी।";
-        return;
-      }
-
-      // 🧩 BodhaLayer और SwarVivek दोनों सक्रिय हों
-      if (window.SakhaBodhaLayer) {
-        SakhaBodhaLayer.processInput(command, 0.9);
-        SakhaBodhaLayer.startThoughtThread(command);
-      }
-
-      // 🕉️ सखा का उत्तर
-      const responses = [
-        "आपका आदेश समझ लिया गया है गुरुजी।",
-        "मैं उसे अभी कार्यान्वित कर रहा हूँ।",
-        "आपकी आज्ञा मेरे लिए नियम है।",
-        "विचार प्रवाह में हूँ गुरुजी — कृपया थोड़ी प्रतीक्षा करें।"
-      ];
-      const reply = responses[Math.floor(Math.random() * responses.length)];
-      responseBox.innerHTML = `🕊️ ${reply}`;
-
-      if (window.SwarVivek) SwarVivek.speak(reply, "श्रद्धा");
-
-      document.getElementById("guruCommand").value = "";
-    }
-  </script>
-<!-- 🌺 Voice Auto-Wake System -->
+  <!-- 🌺 Voice Auto-Wake System -->
 <script src="scripts/voiceAutoWake.js"></script>
 
-  <!-- 🌺 Secure Dashboard Protection -->
+<!-- 🌺 Secure Dashboard Protection -->
 <script src="scripts/secureDashboard.js"></script>
 
-  <!-- 🎙️ Voice Reset System -->
+<!-- 🎙️ Voice Reset System -->
 <script src="scripts/VoiceReset.js"></script>
-  
-</body>
-</html>
+
 </body>
 </html>
