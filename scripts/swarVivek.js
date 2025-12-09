@@ -186,6 +186,51 @@
     configurable: false
   });
 
+   // ============================================================
+// 🎙️ Guru Voice Auto Enrollment Update (v15.9.2)
+// ------------------------------------------------------------
+SwarVivek.startVoiceEnrollment = function() {
+  try {
+    console.log("🎧 नई गुरु आवाज़ पंजीकरण प्रारंभ।");
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("⚠️ इस ब्राउज़र में आवाज़ पंजीकरण समर्थित नहीं है।");
+      return;
+    }
+
+    const recog = new SpeechRecognition();
+    recog.lang = "hi-IN";
+    recog.continuous = false;
+    recog.interimResults = false;
+
+    recog.onstart = () => {
+      SwarVivek.speak("कृपया अपना पवित्र मंत्र बोलें, गुरुजी।", "श्रद्धा");
+    };
+
+    recog.onresult = (event) => {
+      const guruVoiceText = event.results[0][0].transcript.trim();
+      console.log("🕉️ नई गुरु आवाज़ रिकॉर्ड हुई:", guruVoiceText);
+
+      // 🪶 आवाज़ डेटा संग्रहण
+      localStorage.setItem("guruVoiceSignature", guruVoiceText);
+      localStorage.setItem("guruVoiceRegistered", "true");
+
+      SwarVivek.speak("आपकी नई आवाज़ सफलतापूर्वक पंजीकृत हो गई है।", "आनंद");
+      console.log("✅ Guru Voice Enrollment Complete.");
+    };
+
+    recog.onerror = (e) => {
+      console.error("⚠️ आवाज़ पंजीकरण त्रुटि:", e);
+      SwarVivek.speak("मुझे खेद है गुरुजी, कृपया पुनः प्रयास करें।", "संवेदना");
+    };
+
+    recog.start();
+  } catch (err) {
+    console.error("💥 Voice Enrollment Process Failed:", err);
+  }
+};
+
   // 🚀 Activation
   setTimeout(() => SwarVivek.init(), 1500);
 
