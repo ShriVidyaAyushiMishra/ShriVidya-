@@ -59,6 +59,23 @@
 // 🔑 आपका गुरु पासवर्ड (यहाँ आप अपना पासवर्ड डालें)
 const GURU_MASTER_KEY = "AnujKumar@6961";  // आप बदल सकते हैं
 
+  <!-- 🌺 Fingerprint Login Button -->
+<button 
+  id="fingerLoginBtn"
+  style="margin-top:10px; padding:10px 18px; background:#d4af37; border:none; color:white; border-radius:5px;">
+  🔐 फिंगरप्रिंट से प्रवेश करें
+</button>
+
+<script>
+  document.getElementById("fingerLoginBtn").addEventListener("click", () => {
+    if (window.FingerprintAuth) {
+      FingerprintAuth.startAuth();
+    } else {
+      alert("⚠️ Fingerprint सिस्टम लोड नहीं हुआ।");
+    }
+  });
+</script>
+
 // 🎙️ Voice Login (ॐ श्री गणेशाय नमः)
 function startVoiceLogin() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -66,6 +83,7 @@ function startVoiceLogin() {
     alert("⚠️ आपके ब्राउज़र में Voice Login समर्थित नहीं है।");
     return;
   }
+  
 
   const recog = new SpeechRecognition();
   recog.lang = "hi-IN";
@@ -157,6 +175,8 @@ function verifyGuruLogin() {
 
   <!-- 🌸 SakhiVani Test Evaluator -->
 <script src="scripts/TestEvaluator.js"></script>
+
+  <script src="scripts/fingerprintAuth.js"></script>
 
 </body>
 </html>
