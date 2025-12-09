@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <title>ShriVidya Online AI Client</title>
+</head>
+<body>
+  <h1>ShriVidya Online AI – Demo</h1>
+
+  <h2>Prediction</h2>
+  <textarea id="predictInput" rows="3" cols="50"
+    placeholder="कोई वाक्य लिखिए..."></textarea><br />
+  <button onclick="sendPredict()">Predict</button>
+  <pre id="predictResult"></pre>
+
+  <h2>Online Training</h2>
+  <textarea id="trainText" rows="3" cols="50"
+    placeholder="Training के लिए टेक्स्ट लिखिए..."></textarea><br />
+  <input id="trainLabel" type="number" placeholder="Label (जैसे 0 या 1)" />
+  <button onclick="sendTrain()">Train Online</button>
+  <pre id="trainResult"></pre>
+
+  <script>
+    const BASE_URL = "http://localhost:8000"; // सर्वर का URL
+
+    async function sendPredict() {
+      const text = document.getElementById("predictInput").value.trim();
+      if (!text) {
+        alert("कृपया कोई टेक्स्ट लिखिए।");
+        return;
+      }
+
+      const body = { texts: [text] };
+
+      const res = await fetch(`${BASE_URL}/predict`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      const data = await res.json();
+      document.getElementById("predictResult").textContent =
+        "Server response:\n" + JSON.stringify(data, null, 2);
+    }
+
+    async function sendTrain() {
+      const text = document.getElementById("trainText").value.trim();
+      const labelStr = document.getElementById("trainLabel").value.trim();
+
+      if (!text || labelStr === "") {
+        alert("टेक्स्ट और label दोनों आवश्यक हैं।");
+        return;
+      }
+
+      const label = Number(labelStr);
+      const body = {
+        items: [{ text, label }],
+      };
+
+      const res = await fetch(`${BASE_URL}/train-online`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+      const data = await res.json();
+      document.getElementById("trainResult").textContent =
+        "Server response:\n" + JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
