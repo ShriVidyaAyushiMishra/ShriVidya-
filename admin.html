@@ -76,6 +76,21 @@ const GURU_MASTER_KEY = "AnujKumar@6961";  // आप बदल सकते ह�
   });
 </script>
 
+  <!-- 🌺 DualSecure Integration Buttons -->
+<div style="margin-top:15px;">
+  <button 
+    onclick="DualSecure.verifyGuruKey()" 
+    style="background:#0077cc; color:white; padding:10px 16px; border:none; border-radius:5px;">
+    🔑 पासवर्ड सत्यापित करें
+  </button>
+
+  <button 
+    onclick="DualSecure.verifyFingerprint()" 
+    style="background:#2e8b57; color:white; padding:10px 16px; border:none; border-radius:5px; margin-left:10px;">
+    🔐 फिंगरप्रिंट सत्यापित करें
+  </button>
+</div>
+
 // 🎙️ Voice Login (ॐ श्री गणेशाय नमः)
 function startVoiceLogin() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -177,6 +192,9 @@ function verifyGuruLogin() {
 <script src="scripts/TestEvaluator.js"></script>
 
   <script src="scripts/fingerprintAuth.js"></script>
+
+  <!-- 🌺 DualSecure Integration -->
+<script src="scripts/dualSecureIntegration.js"></script>
 
 </body>
 </html>
