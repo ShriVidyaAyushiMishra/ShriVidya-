@@ -1,53 +1,106 @@
-// 🌼 GyaanPulse.js — ज्ञान नाड़ी प्रणाली (v15.0)
-// सखी को विषय पहचानने और ऑनलाइन प्रश्न एकत्र करने हेतु
+/* ============================================================
+   🕉️ ShriVidya App — GyaanPulse Feedback Loop
+   ------------------------------------------------------------
+   Version : v16.6 • सखिवाणी स्वाध्याय पुनरावृत्ति प्रणाली
+   Purpose : उपयोगकर्ता के प्रदर्शन का विश्लेषण करके पुनः अध्ययन कराना
+   Core : ResultInsight.js + QuizPlay.js + SmritiVault.js
+   ============================================================ */
 
-console.log("🧠 GyaanPulse सक्रिय है — विषय ग्रहण के लिए तैयार।");
+(function (global) {
 
-const GyaanPulse = {
-  currentTopic: null,
-  questionBank: [],
-
-  // 🌸 गुरु का आदेश ग्रहण करें
-  receiveCommand(command) {
-    if (command.toLowerCase().includes("क्विज")) {
-      let topic = command.replace(/.*क्विज/i, "").trim();
-      this.startLearning(topic);
-    } else {
-      console.log("💬 कृपया आदेश दें जैसे — 'सखा, प्राचीन इतिहास की क्विज तैयार करो'");
-    }
-  },
-
-  // 🌺 विषय के अनुसार प्रश्न संकलन प्रारंभ करें
-  async startLearning(topic) {
-    this.currentTopic = topic || "सामान्य ज्ञान";
-    console.log(`📚 सखी ${this.currentTopic} विषय पर प्रश्न खोज रही है...`);
-
-    // 🌐 ऑनलाइन API से प्रश्न लाने का सिमुलेशन
-    let api = `https://opentdb.com/api.php?amount=10&type=multiple&category=23`;
-
-    try {
-      let response = await fetch(api);
-      let data = await response.json();
-
-      if (data.results && data.results.length > 0) {
-        this.questionBank = data.results.map((q, index) => ({
-          id: index + 1,
-          question: q.question,
-          options: [...q.incorrect_answers, q.correct_answer].sort(() => Math.random() - 0.5),
-          answer: q.correct_answer
-        }));
-
-        localStorage.setItem("Sakhi_QuizData", JSON.stringify(this.questionBank));
-
-        console.log(`✅ ${this.questionBank.length} प्रश्न ${this.currentTopic} विषय पर संग्रहीत।`);
-        alert(`🌺 सखी ने ${this.currentTopic} विषय पर ${this.questionBank.length} प्रश्न संग्रहीत किए हैं।`);
-      } else {
-        console.warn("⚠️ कोई प्रश्न नहीं मिला।");
-      }
-    } catch (error) {
-      console.error("❌ त्रुटि:", error);
-    }
+  if (global.GyaanPulse) {
+    console.warn("⚠️ GyaanPulse पहले से सक्रिय है।");
+    return;
   }
-};
 
-window.GyaanPulse = GyaanPulse;
+  const GyaanPulse = {
+
+    performanceHistory: [],
+
+    // 📊 प्रत्येक टेस्ट के बाद रिकॉर्ड जोड़ना
+    recordPerformance(topic, score, total) {
+      const accuracy = Math.round((score / total) * 100);
+      const entry = {
+        topic,
+        score,
+        total,
+        accuracy,
+        date: new Date().toLocaleString()
+      };
+
+      this.performanceHistory.push(entry);
+      console.log(`🧠 GyaanPulse रिकॉर्ड — ${topic}: ${accuracy}%`);
+
+      // स्मृति तिजोरी में सहेजना
+      if (window.SmritiVault) {
+        SmritiVault.storeKnowledge("Test Performance", entry);
+      }
+
+      // स्वतः पुनरावृत्ति की तैयारी
+      this.checkWeakAreas();
+    },
+
+    // 🔍 कमजोर विषय पहचानना
+    checkWeakAreas() {
+      if (this.performanceHistory.length < 3) return;
+
+      const topicStats = {};
+      this.performanceHistory.forEach(entry => {
+        if (!topicStats[entry.topic]) topicStats[entry.topic] = [];
+        topicStats[entry.topic].push(entry.accuracy);
+      });
+
+      // औसत निकालना
+      for (const topic in topicStats) {
+        const avg = topicStats[topic].reduce((a, b) => a + b, 0) / topicStats[topic].length;
+        if (avg < 60) {
+          console.warn(`⚠️ कमजोर विषय पहचाना गया: ${topic}`);
+          this.suggestRelearn(topic);
+          break;
+        }
+      }
+    },
+
+    // 🔄 सुझाव देना और पुनः अध्ययन शुरू कराना
+    suggestRelearn(topic) {
+      if (window.SwarVivek) {
+        SwarVivek.speak(`गुरुजी, विषय ${topic} में सुधार की आवश्यकता है। क्या मैं पुनः अभ्यास प्रारंभ कर दूँ?`, "श्रद्धा");
+      }
+
+      // पुष्टि के लिए बटन
+      const confirmDiv = document.createElement("div");
+      confirmDiv.id = "relearnConfirm";
+      confirmDiv.style.textAlign = "center";
+      confirmDiv.style.marginTop = "20px";
+      confirmDiv.innerHTML = `
+        <p>📘 विषय: <b>${topic}</b> — पुनः अध्ययन हेतु तैयार?</p>
+        <button id="startRelearn">✅ हाँ</button>
+        <button id="cancelRelearn">❌ नहीं</button>
+      `;
+      document.body.appendChild(confirmDiv);
+
+      document.getElementById("startRelearn").onclick = () => {
+        confirmDiv.remove();
+        SwarVivek.speak("गुरुजी, पुनः अध्ययन सत्र प्रारंभ कर रही हूँ।", "श्रद्धा");
+        if (window.SakhiQuizPlay) {
+          SakhiQuizPlay.loadTopic(topic);
+          SakhiQuizPlay.startQuiz();
+        }
+      };
+
+      document.getElementById("cancelRelearn").onclick = () => {
+        confirmDiv.remove();
+        SwarVivek.speak("ठीक है गुरुजी, जब आप चाहें पुनः प्रारंभ करेंगे।", "श्रद्धा");
+      };
+    }
+  };
+
+  Object.defineProperty(global, "GyaanPulse", {
+    value: GyaanPulse,
+    writable: false,
+    configurable: false
+  });
+
+  console.log("🪷 GyaanPulse.js सक्रिय — स्वाध्याय पुनरावृत्ति प्रणाली कार्यशील।");
+
+})(window);
