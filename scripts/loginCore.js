@@ -60,3 +60,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+// 🌼 Guru Session Verification System (v16.6.2)
+document.addEventListener("DOMContentLoaded", function () {
+  // अगर सत्र (session) पहले से सक्रिय है —
+  const alreadyVerified = sessionStorage.getItem("guruVerified");
+
+  if (alreadyVerified === "true") {
+    console.log("✅ सत्र पहले से सक्रिय है — सीधे डैशबोर्ड पर भेजा जा रहा है।");
+    window.location.href = "dashboard.html";
+  }
+});
