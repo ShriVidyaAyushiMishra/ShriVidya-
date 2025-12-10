@@ -5,6 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🪷 श्रीविद्या App — गुरु प्रवेश</title>
 
+  <script>
+const GURU_MASTER_KEY = "OmShreeVidya@2025"; // गुरु कुंजी
+
+function verifyGuruLogin() {
+  const key = document.getElementById("guruKeyInput").value.trim();
+  const status = document.getElementById("loginStatus");
+
+  if (key === GURU_MASTER_KEY) {
+    localStorage.setItem("GuruKeyVerified", "true"); // पहचान स्मरण
+    status.innerText = "✅ गुरु पहचान सत्यापित — प्रवेश स्वीकृत।";
+    setTimeout(() => {
+      window.location.href = "dashboard.html"; // डैशबोर्ड पर जाए
+    }, 800);
+  } else {
+    status.innerText = "❌ गलत कुंजी — कृपया पुनः प्रयास करें।";
+  }
+}
+  </script>
+
   <style>
     body {
       font-family: "Noto Sans Devanagari", sans-serif;
