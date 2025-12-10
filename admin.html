@@ -54,6 +54,25 @@
 
 <p id="loginStatus"></p>
 
+  <!-- 🔢 PIN Verification Section -->
+<div id="pinLoginPanel" style="margin-top:30px;">
+  <p style="font-size:18px;">अपना सुरक्षित पिन दर्ज करें:</p>
+  <input 
+    type="password" 
+    id="pinInput" 
+    placeholder="****" 
+    maxlength="4"
+    style="padding:10px; font-size:18px; border-radius:8px; border:1px solid #ccc;"
+  />
+  <br><br>
+  <button 
+    id="verifyPinBtn" 
+    style="padding:10px 20px; font-size:16px; background-color:#4CAF50; color:white; border:none; border-radius:8px; cursor:pointer;">
+    🔐 पिन सत्यापित करें
+  </button>
+</div>
+  
+
 <!-- ================= SCRIPT SECTION ================= -->
 <script>
 // 🔑 आपका गुरु पासवर्ड (यहाँ आप अपना पासवर्ड डालें)
