@@ -1,344 +1,111 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🪷 गुरु प्रवेश — ShriVidya Admin Panel</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🪷 श्रीविद्या App — गुरु प्रवेश</title>
 
-<style>
-  body {
-    font-family: 'Noto Sans Devanagari', sans-serif;
-    background: linear-gradient(135deg, #0a0a0a, #1b1b1b);
-    color: #ffd700;
-    text-align: center;
-    padding: 30px;
-  }
-  input {
-    padding: 12px;
-    width: 70%;
-    border-radius: 8px;
-    border: 1px solid #ffd700;
-    margin-top: 10px;
-    font-size: 1rem;
-  }
-  button {
-    padding: 10px 20px;
-    margin: 10px;
-    background: linear-gradient(90deg, #ffb347, #ffd700);
-    border: none;
-    border-radius: 6px;
-    color: #000;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  button:hover {
-    transform: scale(1.05);
-  }
-  #loginStatus {
-    margin-top: 20px;
-    color: #ffd;
-  }
-</style>
+  <style>
+    body {
+      font-family: "Noto Sans Devanagari", sans-serif;
+      background: linear-gradient(135deg, #f5e6ff, #fff);
+      color: #333;
+      text-align: center;
+      padding: 40px;
+    }
+    h2 {
+      color: #6a1b9a;
+    }
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 250px;
+      margin-top: 10px;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .btn-primary {
+      background-color: #6a1b9a;
+      color: white;
+    }
+    .btn-voice {
+      background-color: #007bff;
+      color: white;
+    }
+    .btn-reset {
+      background-color: #ff9800;
+      color: white;
+    }
+  </style>
 </head>
 <body>
 
-<h2>🌺 श्रीविद्या App — गुरु प्रवेश</h2>
-<p>कृपया अपनी पहचान कुंजी दर्ज करें:</p>
+  <!-- 🔱 Guru Authentication Panel -->
+  <h2>🪷 श्रीविद्या App — गुरु प्रवेश</h2>
+  <p>कृपया अपनी पहचान कुंजी दर्ज करें:</p>
 
-<!-- 🪷 पासवर्ड इनपुट -->
-<input type="password" id="guruKeyInput" placeholder="अपनी गुरु कुंजी यहाँ लिखें" />
+  <input type="password" id="guruKeyInput" placeholder="अपनी गुरु कुंजी यहाँ लिखें" />
+  <br>
+  <button class="btn-primary" onclick="verifyGuruLogin()">🔐 प्रवेश करें</button>
 
-<br>
-<button onclick="verifyGuruLogin()">🔐 प्रवेश करें</button>
-<button onclick="startVoiceLogin()">🎙️ वॉयस से लॉगिन करें</button>
+  <div id="loginStatus"></div>
 
-<p id="loginStatus"></p>
+  <!-- 🎙️ Voice Verification Section -->
+  <div id="voiceVerifyPanel" style="display:none; margin-top:30px;">
+    <h3>🎤 आवाज़ पहचान (Voice Authentication)</h3>
+    <p>कृपया अपना गुरु-मंत्र बोलें:</p>
 
-  <!-- ✉️ Email Verification Section -->
-<div id="emailVerifyPanel" style="margin-top:30px;">
-  <h3>📨 ईमेल सत्यापन (OTP)</h3>
-  <input 
-    type="email" 
-    id="emailInput" 
-    placeholder="अपनी ईमेल आईडी दर्ज करें" 
-    style="padding:10px; width:250px; border-radius:8px; border:1px solid #ccc;"
-  />
-  <br><br>
-  <button onclick="sendEmailOTP()" 
-    style="padding:10px 20px; font-size:16px; background-color:#007bff; color:white; border:none; border-radius:8px; cursor:pointer;">
-    📩 OTP भेजें
-  </button>
+    <button class="btn-voice" onclick="startVoiceVerification()">🎙️ आवाज़ सत्यापित करें</button>
+    <button class="btn-reset" onclick="resetVoiceRegistration()">🔄 आवाज़ बदलें</button>
 
-  <br><br>
-  <input 
-    type="text" 
-    id="otpInput" 
-    placeholder="OTP दर्ज करें" 
-    maxlength="6"
-    style="padding:10px; font-size:18px; border-radius:8px; border:1px solid #ccc;"
-  />
-  <br><br>
-  <button onclick="verifyEmailOTP()" 
-    style="padding:10px 20px; font-size:16px; background-color:#28a745; color:white; border:none; border-radius:8px; cursor:pointer;">
-    ✅ OTP सत्यापित करें
-  </button>
-</div>
+    <p id="voiceStatus"></p>
+  </div>
 
-  <!-- 🔢 PIN Verification Section -->
-<div id="pinLoginPanel" style="margin-top:30px;">
-  <p style="font-size:18px;">अपना सुरक्षित पिन दर्ज करें:</p>
-  <input 
-    type="password" 
-    id="pinInput" 
-    placeholder="****" 
-    maxlength="4"
-    style="padding:10px; font-size:18px; border-radius:8px; border:1px solid #ccc;"
-  />
-  <br><br>
-  <button 
-    id="verifyPinBtn" 
-    style="padding:10px 20px; font-size:16px; background-color:#4CAF50; color:white; border:none; border-radius:8px; cursor:pointer;">
-    🔐 पिन सत्यापित करें
-  </button>
-</div>
-
-  <!-- ✉️ Email Verification Section -->
-<div id="emailVerifyPanel" style="margin-top:30px;">
-  <p style="font-size:18px;">ईमेल सत्यापन (OTP):</p>
-  <input 
-    type="email" 
-    id="emailInput" 
-    placeholder="अपनी ईमेल आईडी दर्ज करें" 
-    style="padding:10px; width:250px; border-radius:8px; border:1px solid #ccc;"
-  />
-  <br><br>
-  <button onclick="sendEmailOTP()" 
-    style="padding:10px 20px; font-size:16px; background-color:#007bff; color:white; border:none; border-radius:8px; cursor:pointer;">
-    📩 OTP भेजें
-  </button>
-
-  <br><br>
-  <input 
-    type="text" 
-    id="otpInput" 
-    placeholder="OTP दर्ज करें" 
-    maxlength="6"
-    style="padding:10px; font-size:18px; border-radius:8px; border:1px solid #ccc;"
-  />
-  <br><br>
-  <button onclick="verifyEmailOTP()" 
-    style="padding:10px 20px; font-size:16px; background-color:#28a745; color:white; border:none; border-radius:8px; cursor:pointer;">
-    ✅ OTP सत्यापित करें
-  </button>
-</div>
-  
-
-<!-- ================= SCRIPT SECTION ================= -->
-<script>
-// 🔑 आपका गुरु पासवर्ड (यहाँ आप अपना पासवर्ड डालें)
-const GURU_MASTER_KEY = "AnujKumar@6961";  // आप बदल सकते हैं
-
-  <!-- 🌺 Fingerprint Login Button -->
-<button 
-  id="fingerLoginBtn"
-  style="margin-top:10px; padding:10px 18px; background:#d4af37; border:none; color:white; border-radius:5px;">
-  🔐 फिंगरप्रिंट से प्रवेश करें
-</button>
-
-    <!-- 🔢 PIN Verification Section -->
-<div id="pinLoginPanel" style="margin-top:20px;">
-  <p>अपना सुरक्षित पिन दर्ज करें:</p>
-  <input 
-    type="password" 
-    id="pinInput" 
-    placeholder="****" 
-    maxlength="4"
-    style="padding:8px; font-size:16px; border-radius:5px; border:1px solid #ccc;"
-  />
-  <br><br>
-  <button 
-    id="verifyPinBtn" 
-    style="padding:8px 16px; background-color:#4CAF50; color:white; border:none; border-radius:5px; cursor:pointer;">
-    🔐 पिन सत्यापित करें
-  </button>
-</div>
-
-<script>
-  document.getElementById("fingerLoginBtn").addEventListener("click", () => {
-    if (window.FingerprintAuth) {
-      FingerprintAuth.startAuth();
-    } else {
-      alert("⚠️ Fingerprint सिस्टम लोड नहीं हुआ।");
-    }
-  });
-</script>
-
-  <!-- 🌺 DualSecure Integration Buttons -->
-<div style="margin-top:15px;">
-  <button 
-    onclick="DualSecure.verifyGuruKey()" 
-    style="background:#0077cc; color:white; padding:10px 16px; border:none; border-radius:5px;">
-    🔑 पासवर्ड सत्यापित करें
-  </button>
-
-  <button 
-    onclick="DualSecure.verifyFingerprint()" 
-    style="background:#2e8b57; color:white; padding:10px 16px; border:none; border-radius:5px; margin-left:10px;">
-    🔐 फिंगरप्रिंट सत्यापित करें
-  </button>
-</div>
-
-// 🎙️ Voice Login (ॐ श्री गणेशाय नमः)
-function startVoiceLogin() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert("⚠️ आपके ब्राउज़र में Voice Login समर्थित नहीं है।");
-    return;
-  }
-  
-
-  const recog = new SpeechRecognition();
-  recog.lang = "hi-IN";
-  recog.continuous = false;
-  recog.interimResults = false;
-
-  recog.onresult = (event) => {
-    const transcript = event.results[0][0].transcript.trim();
-    console.log("🎙️ सुना गया:", transcript);
-
-    if (transcript.includes("ॐ श्री गणेशाय नमः")) {
-      document.getElementById("guruKeyInput").value = GURU_MASTER_KEY;
-      document.getElementById("loginStatus").innerText = "🌸 वाणी पहचान सत्यापित — प्रवेश स्वीकृत।";
-      setTimeout(() => {
-        window.location.href = "dashboard.html";
-      }, 1200);
-    } else {
-      document.getElementById("loginStatus").innerText = "❌ वाणी मान्य नहीं — कृपया पुनः प्रयास करें।";
-    }
-  };
-
-  recog.onerror = (e) => console.error("🎙️ Voice Error:", e);
-  recog.start();
-  alert("🪷 कृपया बोलें: 'ॐ श्री गणेशाय नमः'");
-}
-
-// 🔐 Manual Password Login
-function verifyGuruLogin() {
-  const key = document.getElementById("guruKeyInput").value.trim();
-  const status = document.getElementById("loginStatus");
-
-  if (key === GURU_MASTER_KEY) {
-    status.innerText = "✅ गुरु पहचान सत्यापित — प्रवेश स्वीकृत।";
-    setTimeout(() => {
-      window.location.href = "dashboard.html";
-    }, 1000);
-  } else {
-    status.innerText = "❌ गलत कुंजी — कृपया पुनः प्रयास करें।";
-  }
-}
-</script>
-<!-- 🌺 Core Conscious Systems -->
-<script src="scripts/swarVivek.js"></script>
-<script src="scripts/aiExplanation.js"></script>
+  <!-- 🌿 Core Intelligence Scripts -->
 <script src="scripts/chetanaBridge.js"></script>
+<script src="scripts/voiceAuthCore.js"></script>
+<script src="scripts/voiceAutoWake.js"></script>
 
-  <!-- 🧠 Comparative Intelligence -->
-<script src="scripts/ComparativeCore.js"></script>
+<!-- 🎙️ Guru–Sakhi Resonance -->
+<script src="scripts/GuruSakhiTalk.js"></script>
+<script src="scripts/GuruSakhiResonance.js"></script>
 
-  <!-- 🌸 ShriVidya Intelligent Shiksha Panel -->
-<script src="scripts/ShriVidya_SakhiVaniPanel.js"></script>
-
-<!-- 📊 Trend Visualization Panel -->
-<script src="scripts/TrendVisualizationPanel.js"></script>
-
-  <!-- 🧠 Trend Reasoner System -->
-<script src="scripts/TrendReasoner.js"></script>
-
-  <!-- 📜 Question Generator -->
-<script src="scripts/PrashnSutra.js"></script>
-
-  <!-- 🎯 Quiz Interface -->
-<script src="scripts/QuizPlay.js"></script>
-
-  <!-- 📊 Result Insight System -->
-<script src="scripts/ResultInsight.js"></script>
-
-  
-<!-- 🌸 Shruti + Bhava Systems -->
+<!-- 🌺 Sakhi Learning Core -->
 <script src="scripts/ShrutiSense.js"></script>
 <script src="scripts/BhavaLink.js"></script>
+<script src="scripts/ResonanceCore.js"></script>
 
-<!-- 🔔 Resonance and Memory Systems -->
-<script src="scripts/GuruSakhiResonance.js"></script>
-<script src="scripts/EmotionalMemoryPatch.js"></script>
-
-<!-- 🧠 Sakhi Learning & Quiz Modules -->
+<!-- 🧠 Sakhi Knowledge & Quiz Systems -->
 <script src="scripts/GyaanPulse_v16_6.js"></script>
 <script src="scripts/QuizSynth.js"></script>
-  
-  <!-- 🌼 Evaluation Core -->
 <script src="scripts/TestEvaluator.js"></script>
 
-  <!-- 🌼 Progress Tracker -->
+<!-- 📊 Result & Insight Core -->
+<script src="scripts/ResultInsight.js"></script>
 <script src="scripts/SakhiProgressTracker.js"></script>
-  
-<!-- 🌼 Guru–Sakhi Dashboard -->
+
+<!-- 🌸 Dashboard + Fusion -->
 <script src="scripts/GuruDashboard.js"></script>
+<script src="scripts/SakhiFusionCore.js"></script>
 
-  <!-- 🌺 Guru–Sakhi Insight Module -->
-<script src="scripts/GuruSakhiInsight.js"></script>
-
-  <!-- 🌸 Vaani Expansion & Human Tone -->
-<script src="scripts/VaaniVistaar.js"></script>
-  
-<!-- 💖 Supportive Cores -->
-<script src="scripts/voiceAutoWake.js"></script>
-<script src="scripts/VaaniPath.js"></script>
-
-  <!-- 🕉️ Chetana Unification System -->
+<!-- 🕉️ Unification + Live Response -->
 <script src="scripts/ChetanaUnify.js"></script>
-
-  <!-- 🌺 SakhiVani Live Response -->
 <script src="scripts/SakhiVaniLive.js"></script>
 
-  <!-- 📚 SakhiVani Quiz System -->
-<script src="scripts/SakhiVaniQuiz.js"></script>
-
-  <!-- 🌼 SakhiVani Test Evaluator (v2) -->
-<script src="scripts/TestEvaluator_v2.js"></script>
-
-  <!-- 🌸 SakhiVani Test Evaluator -->
-<script src="scripts/TestEvaluator.js"></script>
-
-  <script src="scripts/fingerprintAuth.js"></script>
-
-  <!-- 🌺 DualSecure Integration -->
-<script src="scripts/dualSecureIntegration.js"></script>
-
-  <!-- 🌺 Quiz Synchronization System -->
-<script src="scripts/GyaanQuizSync.js"></script>
-
-  <!-- 🌼 Sakhi Live Test Panel -->
-<script src="scripts/LiveTestCommand.js"></script>
-
-  <!-- 🌺 Sakhi Intelligence Fusion -->
-<script src="scripts/SakhiFusionCore.js"></script>
-  
-
-  <!-- 🌸 Secure Dashboard Unlock Portal (v16.2) -->
-<script src="scripts/DashboardUnlock_v16_2.js"></script>
-
-  <!-- 🔐 ShaktiLock Dual Security System -->
-<script src="scripts/AccessResetCore.js"></script>
-
-  <!-- 🌼 Fallback PIN Access (Mobile Secure Mode) -->
-<script src="scripts/FallbackPinAccess.js"></script>
-
-  <!-- 🔐 Guru+PIN Dual Access Integration -->
+<!-- 🔐 Dual Security Core -->
 <script src="scripts/loginCore.js"></script>
 
-  <!-- ✉️ Email Verification Core -->
-<script src="scripts/EmailVerifyCore.js"></script>
-  
+<!-- 🌼 Optional Supporting Systems -->
+<script src="scripts/VaaniPath.js"></script>
+<script src="scripts/VaaniVistaar.js"></script>
+
 </body>
 </html>
