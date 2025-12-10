@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🪷 श्रीविद्या शिक्षण पैनल</title>
+  <title>🪷 श्रीविद्या शिक्षण पैनल — सखिवाणी</title>
 
   <style>
     body {
@@ -58,83 +58,17 @@
       transform: scale(1.05);
     }
 
-    <!-- 💬 संवाद केंद्र -->
-<section id="dialoguePanel">
-  <h2>💬 सखिवाणी संवाद केंद्र</h2>
-  <textarea id="userQuestion" placeholder="अपना प्रश्न यहाँ लिखें..."></textarea><br>
-  <button onclick="processDialogue()">🔍 उत्तर प्राप्त करें</button>
-  <div id="dialogueResponse"></div>
-</section>
+    textarea {
+      width: 80%;
+      height: 80px;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 15px;
+      border: none;
+      outline: none;
+      margin-top: 10px;
+    }
 
-<script>
-function processDialogue() {
-  const q = document.getElementById("userQuestion").value.trim();
-  const r = document.getElementById("dialogueResponse");
-  
-  if (!q) {
-    r.innerHTML = "❗ कृपया पहले प्रश्न दर्ज करें।";
-    return;
-  }
-
-  r.innerHTML = "⏳ उत्तर संसाधित हो रहा है...";
-
-  // सरल डेमो उत्तर (आगे चलकर AI-तुलनात्मक डेटाबेस से जोड़ा जा सकेगा)
-  setTimeout(() => {
-    r.innerHTML = `
-      <b>हिंदी:</b> "${q}" प्रश्न का उत्तर उपलब्ध नहीं है, लेकिन अध्ययन जारी रखें।<br>
-      <b>English:</b> Response for "${q}" is being prepared. Please check the Study Notes.
-    `;
-  }, 1200);
-}
-</script>
-    <!-- 📚 नया विषय जोड़ें -->
-<section id="addSubjectPanel">
-  <h3>📚 नया विषय जोड़ें</h3>
-  <input type="text" id="newSubject" placeholder="विषय का नाम लिखें (जैसे 'राजनीति विज्ञान')" />
-  <button onclick="addSubject()">➕ जोड़ें</button>
-  <ul id="subjectList"></ul>
-</section>
-
-<script>
-function addSubject() {
-  const subject = document.getElementById("newSubject").value.trim();
-  const list = document.getElementById("subjectList");
-  if (!subject) return alert("❗ विषय का नाम आवश्यक है।");
-  
-  const li = document.createElement("li");
-  li.textContent = subject;
-  list.appendChild(li);
-
-  document.getElementById("newSubject").value = "";
-}
-</script>
-
-    <!-- 📢 सूचना बोर्ड -->
-<section id="noticeBoard">
-  <h2>📢 सूचना बोर्ड</h2>
-  <ul id="noticeList">
-    <li>🕓 कल शाम 6 बजे — सामान्य अध्ययन टेस्ट</li>
-    <li>🗓️ परसों — भारतीय इतिहास क्विज़ सीरीज़</li>
-  </ul>
-</section>
-    
-<!-- 🌐 भाषा चयन -->
-<section id="languageToggle">
-  <button onclick="setLanguage('hi')">🇮🇳 हिंदी</button>
-  <button onclick="setLanguage('en')">🇬🇧 English</button>
-</section>
-
-<script>
-let currentLang = "hi";
-
-function setLanguage(lang) {
-  currentLang = lang;
-  alert(lang === "hi" ? "🌼 भाषा: हिंदी" : "🌿 Language: English");
-}
-</script>
-
-    
-    
     footer {
       margin-top: 50px;
       font-size: 14px;
@@ -143,98 +77,120 @@ function setLanguage(lang) {
 
   </style>
 </head>
+
 <body>
 
   <!-- 🌼 Guru Secure Access Verification -->
 <script>
-  // यह जांचता है कि गुरु लॉगिन हुआ है या नहीं
-  if (localStorage.getItem("GuruKeyVerified") !== "true") {
+  const guruKeyStatus = localStorage.getItem("GuruKeyVerified");
+
+  if (guruKeyStatus === "true") {
+    console.log("✅ गुरु सत्र सक्रिय — सुरक्षित मोड सक्षम।");
+  } else {
     alert("⚠️ गुरु सत्यापन आवश्यक है। कृपया पुनः लॉगिन करें।");
-    window.location.href = "admin.html"; // वापस लॉगिन पेज पर भेजे
-  }
-</script>
-
-  
-  <header>
-    <h1>🪷 श्रीविद्या शिक्षण पैनल — सखिवाणी</h1>
-    <p>ज्ञान, साधना और सिद्धि का संगम 🌼</p>
-  </header>
-
-  <!-- 🌸 Quiz Panel Container -->
-  <div id="quizPanel">
-    <h3>🌺 कृपया कोई विषय चुनें:</h3>
-    <button onclick="ShriVidyaPanel.chooseSubject('इतिहास')">इतिहास</button>
-    <button onclick="ShriVidyaPanel.chooseSubject('विज्ञान')">विज्ञान</button>
-    <button onclick="ShriVidyaPanel.chooseSubject('सामान्य ज्ञान')">सामान्य ज्ञान</button>
-  </div>
-
-  <!-- 🌼 अन्य स्क्रिप्ट्स -->
-<script src="scripts/GuruSecureAccess_v16_6_8.js"></script>
-<script src="scripts/loginCore_v16_6_1.js"></script>
-
-<!-- 🌼 Guru Secure Admin Session System -->
-<script>
-function startAdminSessionTimer() {
-  let sessionDuration = 180 * 60 * 1000; // 3 घंटे
-  let warningTime = 10 * 60 * 1000; // 10 मिनट पहले चेतावनी
-  let timer, warningShown = false;
-
-  function resetTimer() {
-    clearTimeout(timer);
-    warningShown = false;
-    timer = setTimeout(showWarning, sessionDuration - warningTime);
-  }
-
-  function showWarning() {
-    if (!warningShown) {
-      alert("⚠️ गुरुजी, आपका सत्र 10 मिनट में समाप्त हो जाएगा। कृपया कार्य सुरक्षित करें।");
-      warningShown = true;
-      setTimeout(endSession, warningTime);
-    }
-  }
-
-  function endSession() {
-    alert("🔒 सुरक्षा हेतु सत्र समाप्त — कृपया पुनः लॉगिन करें।");
-    localStorage.removeItem("GuruKeyVerified");
     window.location.href = "admin.html";
   }
 
-  document.addEventListener("click", resetTimer);
-  document.addEventListener("keypress", resetTimer);
-  document.addEventListener("mousemove", resetTimer);
-
-  resetTimer();
-}
-
-if (localStorage.getItem("GuruKeyVerified") === "true") {
-  startAdminSessionTimer();
-}
+  function guruLogout() {
+    localStorage.removeItem("GuruKeyVerified");
+    alert("🔓 सत्र समाप्त — कृपया पुनः लॉगिन करें।");
+    window.location.href = "admin.html";
+  }
 </script>
 
-<!-- 🌺 Footer -->
-<footer>
-  <p>© 2025 ShriVidya — SakhiVani Intelligent Learning Console</p>
-</footer>
+  <!-- 🪷 Header -->
+  <header>
+    <h1>🪷 श्रीविद्या शिक्षण पैनल — सखिवाणी</h1>
+    <p>ज्ञान, साधना और सिद्धि का संगम 🌼</p>
+    <button onclick="guruLogout()" style="float:right; margin-top:-40px;">🔓 Logout</button>
+  </header>
 
-  <!-- 🌼 Quiz Engine Scripts -->
-<script src="scripts/PrashnSutra.js"></script>
-  
-<script src="scripts/QuizPlay.js"></script>
+  <!-- 💬 संवाद केंद्र -->
+  <section id="dialoguePanel">
+    <h2>💬 सखिवाणी संवाद केंद्र</h2>
+    <textarea id="userQuestion" placeholder="अपना प्रश्न यहाँ लिखें..."></textarea><br>
+    <button onclick="processDialogue()">🔍 उत्तर प्राप्त करें</button>
+    <div id="dialogueResponse"></div>
+  </section>
 
-<!-- 🌿 Core & Voice Scripts -->
-  
-<script src="scripts/swarVivek.js"></script>
-  
-<script src="scripts/ShriVidya_SakhiVaniPanel.js"></script>
+  <script>
+  function processDialogue() {
+    const q = document.getElementById("userQuestion").value.trim();
+    const r = document.getElementById("dialogueResponse");
+    if (!q) {
+      r.innerHTML = "❗ कृपया पहले प्रश्न दर्ज करें।";
+      return;
+    }
 
-<!-- 🌺 Voice Auto-Wake System -->
-<script src="scripts/voiceAutoWake.js"></script>
+    r.innerHTML = "⏳ उत्तर संसाधित हो रहा है...";
 
-<!-- 🎙️ Voice Reset System -->
-<script src="scripts/VoiceReset.js"></script>
+    setTimeout(() => {
+      r.innerHTML = `
+        <b>हिंदी:</b> "${q}" प्रश्न का उत्तर अभी उपलब्ध नहीं है, लेकिन अध्ययन जारी रखें।<br>
+        <b>English:</b> Response for "${q}" is being prepared. Please check the Study Notes.
+      `;
+    }, 1200);
+  }
+  </script>
 
-<!-- 🛡️ Secure Dashboard Entry System (Dual Mode) -->
-<script src="scripts/secureDashboard.js"></script>
+  <!-- 📚 नया विषय जोड़ें -->
+  <section id="addSubjectPanel">
+    <h3>📚 नया विषय जोड़ें</h3>
+    <input type="text" id="newSubject" placeholder="विषय का नाम लिखें (जैसे 'राजनीति विज्ञान')" />
+    <button onclick="addSubject()">➕ जोड़ें</button>
+    <ul id="subjectList"></ul>
+  </section>
+
+  <script>
+  function addSubject() {
+    const subject = document.getElementById("newSubject").value.trim();
+    const list = document.getElementById("subjectList");
+    if (!subject) return alert("❗ विषय का नाम आवश्यक है।");
+    const li = document.createElement("li");
+    li.textContent = subject;
+    list.appendChild(li);
+    document.getElementById("newSubject").value = "";
+  }
+  </script>
+
+  <!-- 📢 सूचना बोर्ड -->
+  <section id="noticeBoard">
+    <h2>📢 सूचना बोर्ड</h2>
+    <ul id="noticeList">
+      <li>🕓 कल शाम 6 बजे — सामान्य अध्ययन टेस्ट</li>
+      <li>🗓️ परसों — भारतीय इतिहास क्विज़ सीरीज़</li>
+    </ul>
+  </section>
+
+  <!-- 🌐 भाषा चयन -->
+  <section id="languageToggle">
+    <button onclick="setLanguage('hi')">🇮🇳 हिंदी</button>
+    <button onclick="setLanguage('en')">🇬🇧 English</button>
+  </section>
+
+  <script>
+  let currentLang = "hi";
+  function setLanguage(lang) {
+    currentLang = lang;
+    alert(lang === "hi" ? "🌼 भाषा: हिंदी" : "🌿 Language: English");
+  }
+  </script>
+
+  <!-- 🌺 Footer -->
+  <footer>
+    <p>© 2025 ShriVidya — SakhiVani Intelligent Learning Console</p>
+  </footer>
+
+  <!-- 🌼 Script Links -->
+  <script src="scripts/GuruSecureAccess_v16_6_8.js"></script>
+  <script src="scripts/loginCore_v16_6_1.js"></script>
+  <script src="scripts/PrashnSutra.js"></script>
+  <script src="scripts/QuizPlay.js"></script>
+  <script src="scripts/swarVivek.js"></script>
+  <script src="scripts/ShriVidya_SakhiVaniPanel.js"></script>
+  <script src="scripts/voiceAutoWake.js"></script>
+  <script src="scripts/VoiceReset.js"></script>
+  <script src="scripts/secureDashboard.js"></script>
 
 </body>
 </html>
