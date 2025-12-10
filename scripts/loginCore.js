@@ -25,3 +25,38 @@
   // ✅ Auto-check हर 2 सेकंड में
   setInterval(checkAccess, 2000);
 })();
+
+// 🌸 Guru Password Verification (Update v16.6.1)
+document.addEventListener("DOMContentLoaded", function () {
+  const loginButton = document.querySelector("#guruLoginBtn");
+  const inputField = document.querySelector("#guruKeyInput");
+  const loginStatus = document.querySelector("#loginStatus");
+
+  if (!loginButton) return; // अगर बटन नहीं मिला तो स्क्रिप्ट बंद कर दो
+
+  const GURU_KEY = "OmShreeVidya@2025"; // यहाँ अपना सही पासवर्ड डालो
+
+  loginButton.addEventListener("click", function () {
+    const entered = inputField.value.trim();
+
+    if (!entered) {
+      loginStatus.innerHTML = "⚠️ कृपया अपनी गुरु कुंजी दर्ज करें।";
+      return;
+    }
+
+    if (entered === GURU_KEY) {
+      loginStatus.innerHTML = "✅ गुरु पहचान सत्यापित — प्रवेश स्वीकृत।";
+      console.log("🔓 Guru Login Successful.");
+
+      // सत्र याद रखे
+      sessionStorage.setItem("guruVerified", "true");
+
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 1000);
+    } else {
+      loginStatus.innerHTML = "❌ गलत कुंजी — पुनः प्रयास करें।";
+      console.warn("Guru Key Invalid");
+    }
+  });
+});
