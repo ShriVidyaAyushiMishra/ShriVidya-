@@ -1,74 +1,62 @@
-/* ============================================================
-   🕉️ loginCore.js (v16.3.5 — Guru+PIN Access Integration Patch)
-   ------------------------------------------------------------
-   Purpose : Guru Key + PIN द्विस्तरीय लॉगिन संयोजन
-   ============================================================ */
 
-(function () {
-  console.log("🔐 Guru+PIN Access System Activated...");
 
-  function checkAccess() {
-    const guru = localStorage.getItem("guruKeyVerified");
-    const pin = localStorage.getItem("pinVerified");
+// Constants
+const GURU_KEY = "a@35707207966459#9926@342144"; // यहाँ अपना सही पासवर्ड डालें
+const STORAGE_KEY = "GuruKeyVerified";
+const TIMESTAMP_KEY = "GuruKeyTimestamp";
 
-    if (guru === "true" && pin === "true") {
-      console.log("✅ द्विस्तरीय सत्यापन पूर्ण — एडमिन पैनल खुल रहा है...");
-      if (window.SwarVivek) {
-        SwarVivek.speak("गुरुजी, द्विस्तरीय सत्यापन पूर्ण — सखिवाणी तैयार है।", "श्रद्धा");
-      }
-      window.location.href = "dashboard.html";
-    } else {
-      console.warn("⚠️ कृपया सुनिश्चित करें: गुरु पासवर्ड और PIN दोनों सत्यापित हैं।");
-    }
-  }
+// Function to check access
+function checkAccess() {
+  const isVerified = localStorage.getItem(STORAGE_KEY);
+  const timestamp = localStorage.getItem(TIMESTAMP_KEY);
+  const currentTime = new Date().getTime();
 
-  // ✅ Auto-check हर 2 सेकंड में
-  setInterval(checkAccess, 2000);
-})();
+  if (isVerified === "true" && timestamp && currentTime - timestamp < 86400000) {
+    console.log("✅ द्विस्तरीय सत्यापन पूर्ण — एडमिन पैनल खुल रहा है...");
+    if (window.SwarVivek) {
+      SwarVivek.speak("गुरुजी, द्विस्तरीय सत्यापन पूर्ण — सखिवाणी तैयार है।", "श्रद्धा");
+    }
+    window.location.href = "dashboard.html";
+  } else {
+    console.warn("⚠️ कृपया सुनिश्चित करें: गुरु पासवर्ड और PIN दोनों सत्यापित हैं।");
+  }
+}
 
-// 🌸 Guru Password Verification (Update v16.6.1)
+// Auto-check every 24 hours
+setInterval(checkAccess, 86400000);
+
+// Login functionality
 document.addEventListener("DOMContentLoaded", function () {
-  const loginButton = document.querySelector("#guruLoginBtn");
-  const inputField = document.querySelector("#guruKeyInput");
-  const loginStatus = document.querySelector("#loginStatus");
+  const loginButton = document.querySelector("#guruLoginBtn");
+  const inputField = document.querySelector("#guruKeyInput");
+  const loginStatus = document.querySelector("#loginStatus");
 
-  if (!loginButton) return; // अगर बटन नहीं मिला तो स्क्रिप्ट बंद कर दो
+  loginButton.addEventListener("click", function () {
+    const enteredKey = inputField.value.trim();
+    if (!enteredKey) {
+      loginStatus.innerHTML = "⚠️ कृपया अपनी गुरु कुंजी दर्ज करें।";
+      return;
+    }
 
-  const GURU_KEY = " "; // यहाँ अपना सही पासवर्ड डालो
-
-  loginButton.addEventListener("click", function () {
-    const entered = inputField.value.trim();
-
-    if (!entered) {
-      loginStatus.innerHTML = "⚠️ कृपया अपनी गुरु कुंजी दर्ज करें।";
-      return;
-    }
-
-    function verifyGuruLogin() {
-  const enteredKey = document.getElementById("guruKeyInput").value;
-
-  if (enteredKey === GURU_KEY) {
-    // ✅ लॉगिन सफल हुआ — अब सत्र याद रखो
-    localStorage.setItem("GuruKeyVerified", "true");
-    sessionStorage.setItem("GuruKeyVerified", "true");
-
-    alert("✅ गुरुजी सत्यापित — स्वागत है।");
-    window.location.href = "dashboard.html"; // डैशबोर्ड पर भेजो
-  } 
-  else {
-    alert("❌ गलत पासवर्ड। कृपया पुनः प्रयास करें।");
-  }
-       
-    }
-  });
+    if (enteredKey === GURU_KEY) {
+      localStorage.setItem(STORAGE_KEY, "true");
+      localStorage.setItem(TIMESTAMP_KEY, new Date().getTime());
+      alert("✅ गुरुजी सत्यापित — स्वागत है।");
+      window.location.href = "dashboard.html";
+    } else {
+      alert("❌ गलत पासवर्ड। कृपया पुनः प्रयास करें।");
+    }
+  });
 });
-// 🌼 Guru Session Verification System (v16.6.2)
-document.addEventListener("DOMContentLoaded", function () {
-  // अगर सत्र (session) पहले से सक्रिय है —
-  const alreadyVerified = sessionStorage.getItem("guruVerified");
 
-  if (alreadyVerified === "true") {
-    console.log("✅ सत्र पहले से सक्रिय है — सीधे डैशबोर्ड पर भेजा जा रहा है।");
-    window.location.href = "dashboard.html";
-  }
+// Session verification
+document.addEventListener("DOMContentLoaded", function () {
+  const isVerified = localStorage.getItem(STORAGE_KEY);
+  const timestamp = localStorage.getItem(TIMESTAMP_KEY);
+  const currentTime = new Date().getTime();
+
+  if (isVerified === "true" && timestamp && currentTime - timestamp < 86400000) {
+    console.log("✅ सत्र पहले से सक्रिय है — सीधे डैशबोर्ड पर भेजा जा रहा है।");
+    window.location.href = "dashboard.html";
+  }
 });
