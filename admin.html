@@ -54,6 +54,36 @@
 
 <p id="loginStatus"></p>
 
+  <!-- ✉️ Email Verification Section -->
+<div id="emailVerifyPanel" style="margin-top:30px;">
+  <h3>📨 ईमेल सत्यापन (OTP)</h3>
+  <input 
+    type="email" 
+    id="emailInput" 
+    placeholder="अपनी ईमेल आईडी दर्ज करें" 
+    style="padding:10px; width:250px; border-radius:8px; border:1px solid #ccc;"
+  />
+  <br><br>
+  <button onclick="sendEmailOTP()" 
+    style="padding:10px 20px; font-size:16px; background-color:#007bff; color:white; border:none; border-radius:8px; cursor:pointer;">
+    📩 OTP भेजें
+  </button>
+
+  <br><br>
+  <input 
+    type="text" 
+    id="otpInput" 
+    placeholder="OTP दर्ज करें" 
+    maxlength="6"
+    style="padding:10px; font-size:18px; border-radius:8px; border:1px solid #ccc;"
+  />
+  <br><br>
+  <button onclick="verifyEmailOTP()" 
+    style="padding:10px 20px; font-size:16px; background-color:#28a745; color:white; border:none; border-radius:8px; cursor:pointer;">
+    ✅ OTP सत्यापित करें
+  </button>
+</div>
+
   <!-- 🔢 PIN Verification Section -->
 <div id="pinLoginPanel" style="margin-top:30px;">
   <p style="font-size:18px;">अपना सुरक्षित पिन दर्ज करें:</p>
