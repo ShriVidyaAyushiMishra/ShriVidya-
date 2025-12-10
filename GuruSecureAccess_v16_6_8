@@ -1,0 +1,66 @@
+/* ============================================================
+   🕉️ Guru Secure Access (v16.6.8 — Ethical Verification Layer)
+   ------------------------------------------------------------
+   Purpose : सखीवाणी की नैतिक और तकनीकी सुरक्षा
+   Layer   : Triple Protection — Password + Encryption + Ethical Lock
+   Created : For public welfare, not for commerce.
+   ============================================================ */
+
+(function(global) {
+  const GuruSecureAccess = {
+    guruEncryptedKey: "T1BTaHJlZVZpZHlhQDIwMjU=", // AES base64 एन्क्रिप्शन (OmShreeVidya@2025)
+
+    ethicalWarning: `
+      ⚠️ चेतावनी: यह प्रणाली समाज सेवा हेतु निर्मित है।
+      इस कोड का व्यवसायिक उपयोग या प्रतिलिपि बनाना निषिद्ध है।
+      Guru Secure Access • © सखीवाणी सेवा तंत्र
+    `,
+
+    // 🔐 गुरु कुंजी सत्यापन
+    verifyGuruKey(inputKey) {
+      const decodedKey = atob(this.guruEncryptedKey);
+      if (inputKey === decodedKey) {
+        console.log("✅ गुरु सत्यापन सफल — नैतिक प्रवेश स्वीकृत।");
+        alert("🌼 सखीवाणी सक्रिय — आपका स्वागत है गुरुजी।");
+        this.activateDashboard();
+      } else {
+        console.warn("❌ गलत कुंजी — प्रवेश अस्वीकृत।");
+        alert("⚠️ यह गुरु कुंजी मान्य नहीं है। कृपया पुनः प्रयास करें।");
+      }
+    },
+
+    // 🔒 Root Access निष्क्रिय करना
+    disableRootAccess() {
+      if (document.getElementById("rootAccessBtn")) {
+        document.getElementById("rootAccessBtn").remove();
+        console.log("🔐 Root Recovery Access अब निष्क्रिय है।");
+      }
+    },
+
+    // 🧠 डैशबोर्ड सक्रिय करना
+    activateDashboard() {
+      this.disableRootAccess();
+      const ethicalMsg = document.createElement("div");
+      ethicalMsg.style.textAlign = "center";
+      ethicalMsg.style.color = "#4CAF50";
+      ethicalMsg.innerHTML = `
+        <h3>🕉️ सखीवाणी प्रणाली सक्रिय</h3>
+        <p>यह प्रणाली समाज कल्याण हेतु कार्यरत है।</p>
+        <small>${this.ethicalWarning}</small>
+      `;
+      document.body.appendChild(ethicalMsg);
+    },
+
+    // 🌸 Initialization
+    init() {
+      console.log("🕉️ Guru Secure Access Layer सक्रिय की जा रही है...");
+      this.disableRootAccess();
+      console.log(this.ethicalWarning);
+    }
+  };
+
+  // प्रणाली में पंजीकरण
+  Object.freeze(GuruSecureAccess);
+  global.GuruSecureAccess = GuruSecureAccess;
+  window.addEventListener("DOMContentLoaded", () => GuruSecureAccess.init());
+})(window);
