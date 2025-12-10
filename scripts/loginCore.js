@@ -44,19 +44,21 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    if (entered === GURU_KEY) {
-      loginStatus.innerHTML = "✅ गुरु पहचान सत्यापित — प्रवेश स्वीकृत।";
-      console.log("🔓 Guru Login Successful.");
+    function verifyGuruLogin() {
+  const enteredKey = document.getElementById("guruKeyInput").value;
 
-      // सत्र याद रखे
-      sessionStorage.setItem("guruVerified", "true");
+  if (enteredKey === GURU_KEY) {
+    // ✅ लॉगिन सफल हुआ — अब सत्र याद रखो
+    localStorage.setItem("GuruKeyVerified", "true");
+    sessionStorage.setItem("GuruKeyVerified", "true");
 
-      setTimeout(() => {
-        window.location.href = "dashboard.html";
-      }, 1000);
-    } else {
-      loginStatus.innerHTML = "❌ गलत कुंजी — पुनः प्रयास करें।";
-      console.warn("Guru Key Invalid");
+    alert("✅ गुरुजी सत्यापित — स्वागत है।");
+    window.location.href = "dashboard.html"; // डैशबोर्ड पर भेजो
+  } 
+  else {
+    alert("❌ गलत पासवर्ड। कृपया पुनः प्रयास करें।");
+  }
+       
     }
   });
 });
