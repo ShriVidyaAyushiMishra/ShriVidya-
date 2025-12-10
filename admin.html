@@ -66,6 +66,24 @@ const GURU_MASTER_KEY = "AnujKumar@6961";  // आप बदल सकते ह�
   🔐 फिंगरप्रिंट से प्रवेश करें
 </button>
 
+    <!-- 🔢 PIN Verification Section -->
+<div id="pinLoginPanel" style="margin-top:20px;">
+  <p>अपना सुरक्षित पिन दर्ज करें:</p>
+  <input 
+    type="password" 
+    id="pinInput" 
+    placeholder="****" 
+    maxlength="4"
+    style="padding:8px; font-size:16px; border-radius:5px; border:1px solid #ccc;"
+  />
+  <br><br>
+  <button 
+    id="verifyPinBtn" 
+    style="padding:8px 16px; background-color:#4CAF50; color:white; border:none; border-radius:5px; cursor:pointer;">
+    🔐 पिन सत्यापित करें
+  </button>
+</div>
+
 <script>
   document.getElementById("fingerLoginBtn").addEventListener("click", () => {
     if (window.FingerprintAuth) {
