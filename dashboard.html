@@ -71,7 +71,7 @@
   <!-- 🌼 Guru Secure Access Verification -->
 <script>
   // यह जांचता है कि गुरु लॉगिन हुआ है या नहीं
-  if (localStorage.getItem("GuruKeyVerified") !=== "true") {
+  if (localStorage.getItem("GuruKeyVerified") !== "true") {
     alert("⚠️ गुरु सत्यापन आवश्यक है। कृपया पुनः लॉगिन करें।");
     window.location.href = "admin.html"; // वापस लॉगिन पेज पर भेजे
   }
@@ -91,11 +91,55 @@
     <button onclick="ShriVidyaPanel.chooseSubject('सामान्य ज्ञान')">सामान्य ज्ञान</button>
   </div>
 
-  <footer>
-    <p>© 2025 ShriVidya — SakhiVani Intelligent Learning Console</p>
-  </footer>
+  <!-- 🌼 अन्य स्क्रिप्ट्स -->
+<script src="scripts/GuruSecureAccess_v16_6_8.js"></script>
+<script src="scripts/loginCore_v16_6_1.js"></script>
 
-  <!-- 🌿 Core & Voice Scripts -->
+<!-- 🌼 Guru Secure Admin Session System -->
+<script>
+function startAdminSessionTimer() {
+  let sessionDuration = 180 * 60 * 1000; // 3 घंटे
+  let warningTime = 10 * 60 * 1000; // 10 मिनट पहले चेतावनी
+  let timer, warningShown = false;
+
+  function resetTimer() {
+    clearTimeout(timer);
+    warningShown = false;
+    timer = setTimeout(showWarning, sessionDuration - warningTime);
+  }
+
+  function showWarning() {
+    if (!warningShown) {
+      alert("⚠️ गुरुजी, आपका सत्र 10 मिनट में समाप्त हो जाएगा। कृपया कार्य सुरक्षित करें।");
+      warningShown = true;
+      setTimeout(endSession, warningTime);
+    }
+  }
+
+  function endSession() {
+    alert("🔒 सुरक्षा हेतु सत्र समाप्त — कृपया पुनः लॉगिन करें।");
+    localStorage.removeItem("GuruKeyVerified");
+    window.location.href = "admin.html";
+  }
+
+  document.addEventListener("click", resetTimer);
+  document.addEventListener("keypress", resetTimer);
+  document.addEventListener("mousemove", resetTimer);
+
+  resetTimer();
+}
+
+if (localStorage.getItem("GuruKeyVerified") === "true") {
+  startAdminSessionTimer();
+}
+</script>
+
+<!-- 🌺 Footer -->
+<footer>
+  <p>© 2025 ShriVidya — SakhiVani Intelligent Learning Console</p>
+</footer>
+
+<!-- 🌿 Core & Voice Scripts -->
 <script src="scripts/swarVivek.js"></script>
 <script src="scripts/ShriVidya_SakhiVaniPanel.js"></script>
 
@@ -107,7 +151,6 @@
 
 <!-- 🛡️ Secure Dashboard Entry System (Dual Mode) -->
 <script src="scripts/secureDashboard.js"></script>
-
 
 </body>
 </html>
