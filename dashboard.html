@@ -58,6 +58,83 @@
       transform: scale(1.05);
     }
 
+    <!-- 💬 संवाद केंद्र -->
+<section id="dialoguePanel">
+  <h2>💬 सखिवाणी संवाद केंद्र</h2>
+  <textarea id="userQuestion" placeholder="अपना प्रश्न यहाँ लिखें..."></textarea><br>
+  <button onclick="processDialogue()">🔍 उत्तर प्राप्त करें</button>
+  <div id="dialogueResponse"></div>
+</section>
+
+<script>
+function processDialogue() {
+  const q = document.getElementById("userQuestion").value.trim();
+  const r = document.getElementById("dialogueResponse");
+  
+  if (!q) {
+    r.innerHTML = "❗ कृपया पहले प्रश्न दर्ज करें।";
+    return;
+  }
+
+  r.innerHTML = "⏳ उत्तर संसाधित हो रहा है...";
+
+  // सरल डेमो उत्तर (आगे चलकर AI-तुलनात्मक डेटाबेस से जोड़ा जा सकेगा)
+  setTimeout(() => {
+    r.innerHTML = `
+      <b>हिंदी:</b> "${q}" प्रश्न का उत्तर उपलब्ध नहीं है, लेकिन अध्ययन जारी रखें।<br>
+      <b>English:</b> Response for "${q}" is being prepared. Please check the Study Notes.
+    `;
+  }, 1200);
+}
+</script>
+    <!-- 📚 नया विषय जोड़ें -->
+<section id="addSubjectPanel">
+  <h3>📚 नया विषय जोड़ें</h3>
+  <input type="text" id="newSubject" placeholder="विषय का नाम लिखें (जैसे 'राजनीति विज्ञान')" />
+  <button onclick="addSubject()">➕ जोड़ें</button>
+  <ul id="subjectList"></ul>
+</section>
+
+<script>
+function addSubject() {
+  const subject = document.getElementById("newSubject").value.trim();
+  const list = document.getElementById("subjectList");
+  if (!subject) return alert("❗ विषय का नाम आवश्यक है।");
+  
+  const li = document.createElement("li");
+  li.textContent = subject;
+  list.appendChild(li);
+
+  document.getElementById("newSubject").value = "";
+}
+</script>
+
+    <!-- 📢 सूचना बोर्ड -->
+<section id="noticeBoard">
+  <h2>📢 सूचना बोर्ड</h2>
+  <ul id="noticeList">
+    <li>🕓 कल शाम 6 बजे — सामान्य अध्ययन टेस्ट</li>
+    <li>🗓️ परसों — भारतीय इतिहास क्विज़ सीरीज़</li>
+  </ul>
+</section>
+    
+<!-- 🌐 भाषा चयन -->
+<section id="languageToggle">
+  <button onclick="setLanguage('hi')">🇮🇳 हिंदी</button>
+  <button onclick="setLanguage('en')">🇬🇧 English</button>
+</section>
+
+<script>
+let currentLang = "hi";
+
+function setLanguage(lang) {
+  currentLang = lang;
+  alert(lang === "hi" ? "🌼 भाषा: हिंदी" : "🌿 Language: English");
+}
+</script>
+
+    
+    
     footer {
       margin-top: 50px;
       font-size: 14px;
