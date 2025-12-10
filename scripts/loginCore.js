@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!loginButton) return; // अगर बटन नहीं मिला तो स्क्रिप्ट बंद कर दो
 
-  const GURU_KEY = "OmShreeVidya@2025"; // यहाँ अपना सही पासवर्ड डालो
+  const GURU_KEY = "Anuj@9935"; // यहाँ अपना सही पासवर्ड डालो
 
   loginButton.addEventListener("click", function () {
     const entered = inputField.value.trim();
