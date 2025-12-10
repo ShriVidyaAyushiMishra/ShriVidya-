@@ -80,22 +80,30 @@
 
 <body>
 
-  <!-- 🌼 Guru Secure Access Verification -->
+  <!-- 🌼 Persistent Secure Session -->
 <script>
-  const guruKeyStatus = localStorage.getItem("GuruKeyVerified");
+const guruKeyStatus = localStorage.getItem("GuruKeyVerified");
 
-  if (guruKeyStatus === "true") {
-    console.log("✅ गुरु सत्र सक्रिय — सुरक्षित मोड सक्षम।");
-  } else {
-    alert("⚠️ गुरु सत्यापन आवश्यक है। कृपया पुनः लॉगिन करें।");
-    window.location.href = "admin.html";
-  }
+// अगर GuruKeyVerified नहीं मिला, तो sessionStorage में देखें
+if (!guruKeyStatus && sessionStorage.getItem("GuruKeyVerified") === "true") {
+  localStorage.setItem("GuruKeyVerified", "true");
+  console.log("♻️ Session restored from backup.");
+}
 
-  function guruLogout() {
-    localStorage.removeItem("GuruKeyVerified");
-    alert("🔓 सत्र समाप्त — कृपया पुनः लॉगिन करें।");
-    window.location.href = "admin.html";
-  }
+if (localStorage.getItem("GuruKeyVerified") === "true") {
+  console.log("✅ गुरु सत्र स्थायी — सुरक्षित मोड सक्रिय।");
+} else {
+  alert("⚠️ गुरु सत्यापन आवश्यक है। कृपया पुनः लॉगिन करें।");
+  window.location.href = "admin.html";
+}
+
+// Logout Function
+function guruLogout() {
+  localStorage.removeItem("GuruKeyVerified");
+  sessionStorage.removeItem("GuruKeyVerified");
+  alert("🔓 सत्र समाप्त — कृपया पुनः लॉगिन करें।");
+  window.location.href = "admin.html";
+}
 </script>
 
   <!-- 🪷 Header -->
