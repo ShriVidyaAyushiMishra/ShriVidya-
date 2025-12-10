@@ -80,28 +80,37 @@
 
 <body>
 
-  <!-- 🌼 Persistent Secure Session -->
+  <!-- 🌼 Guru Secure Persistent Session Fix -->
 <script>
-const guruKeyStatus = localStorage.getItem("GuruKeyVerified");
+try {
+  let verified = localStorage.getItem("GuruKeyVerified");
 
-// अगर GuruKeyVerified नहीं मिला, तो sessionStorage में देखें
-if (!guruKeyStatus && sessionStorage.getItem("GuruKeyVerified") === "true") {
-  localStorage.setItem("GuruKeyVerified", "true");
-  console.log("♻️ Session restored from backup.");
-}
+  // यदि कुंजी null या undefined है, तो sessionStorage से restore करो
+  if (!verified && sessionStorage.getItem("GuruKeyVerified") === "true") {
+    localStorage.setItem("GuruKeyVerified", "true");
+    verified = "true";
+    console.log("♻️ सत्र पुनर्स्थापित — sessionStorage से प्राप्त।");
+  }
 
-if (localStorage.getItem("GuruKeyVerified") === "true") {
-  console.log("✅ गुरु सत्र स्थायी — सुरक्षित मोड सक्रिय।");
-} else {
-  alert("⚠️ गुरु सत्यापन आवश्यक है। कृपया पुनः लॉगिन करें।");
-  window.location.href = "admin.html";
-}
+  // यहाँ type-check हटा दिया गया ताकि "true" या true दोनों मान्य हों
+  if (verified == "true" || verified === true) {
+    console.log("✅ गुरु सत्र सक्रिय — सखीवाणी तैयार है।");
+  } else {
+    alert("⚠️ गुरु सत्यापन आवश्यक है। कृपया पुनः लॉगिन करें।");
+    window.location.href = "admin.html";
+  }
 
-// Logout Function
-function guruLogout() {
-  localStorage.removeItem("GuruKeyVerified");
-  sessionStorage.removeItem("GuruKeyVerified");
-  alert("🔓 सत्र समाप्त — कृपया पुनः लॉगिन करें।");
+  // 🔓 Logout Function
+  function guruLogout() {
+    localStorage.removeItem("GuruKeyVerified");
+    sessionStorage.removeItem("GuruKeyVerified");
+    alert("🔒 सत्र समाप्त — कृपया पुनः लॉगिन करें।");
+    window.location.href = "admin.html";
+  }
+
+} catch (e) {
+  console.error("❌ Guru session verification error:", e);
+  alert("⚠️ सत्र सत्यापन में त्रुटि। कृपया पुनः लॉगिन करें।");
   window.location.href = "admin.html";
 }
 </script>
