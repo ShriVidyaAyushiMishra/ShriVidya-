@@ -1,156 +1,104 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🪷 श्रीविद्या शिक्षण पैनल — सखिवाणी</title>
-
-  <style>
-    body {
-      background: linear-gradient(135deg, #220033, #550077, #220033);
-      font-family: 'Noto Sans Devanagari', sans-serif;
-      color: #fff;
-      margin: 0;
-      text-align: center;
-      overflow-x: hidden;
-    }
-
-    header {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 15px;
-      backdrop-filter: blur(10px);
-      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-    }
-
-    h1 {
-      margin: 10px 0;
-      font-size: 26px;
-      color: #ffda79;
-      text-shadow: 0 0 8px #ffb347;
-    }
-
-    #quizPanel {
-      background: rgba(255, 255, 255, 0.15);
-      margin: 30px auto;
-      width: 90%;
-      max-width: 700px;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 0 15px rgba(255,255,255,0.3);
-      backdrop-filter: blur(12px);
-      transition: all 0.4s ease;
-    }
-
-    button {
-      background: linear-gradient(90deg, #ff8c00, #ff0066);
-      border: none;
-      padding: 12px 20px;
-      color: #fff;
-      font-size: 16px;
-      border-radius: 10px;
-      margin: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background: linear-gradient(90deg, #ffb347, #ff3366);
-      transform: scale(1.05);
-    }
-
-    textarea {
-      width: 80%;
-      height: 80px;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 15px;
-      border: none;
-      outline: none;
-      margin-top: 10px;
-    }
-    <!-- 🌺 Guru Persistent Session Lock -->
-<script src="scripts/GuruPersistentLock.js"></script>
-
-    footer {
-      margin-top: 50px;
-      font-size: 14px;
-      opacity: 0.8;
-    }
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪷 श्रीविद्या शिक्षण पैनल — सखिवाणी</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #220033, #550077, #220033);
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            color: #fff;
+            margin: 0;
+            text-align: center;
+            overflow-x: hidden;
+        }
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        h1 {
+            margin: 10px 0;
+            font-size: 26px;
+            color: #ffda79;
+            text-shadow: 0 0 8px #ffb347;
+        }
+        #quizPanel {
+            background: rgba(255, 255, 255, 0.15);
+            margin: 30px auto;
+            width: 90%;
+            max-width: 700px;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+            backdrop-filter: blur(12px);
+            transition: all 0.4s ease;
+        }
+        button {
+            background: linear-gradient(90deg, #ff8c00, #ff0066);
+            border: none;
+            padding: 12px 20px;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 10px;
+            margin: 8px;
+            cursor: pointer;
+            transition: 00.3s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #ffb347, #ff3366);
+            transform: scale(1.05);
+        }
+        textarea {
+            width: 80%;
+            height: 80px;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 15px;
+            border: none;
+            outline: none;
+            margin-top: 10px;
+        }
+    </style>
 </head>
-
 <body>
+    <script>
+        const GURU_KEY = "a@35707207966459#9926@342144";
 
-  <!-- 🌼 Guru Secure Access Verification (Fixed & Persistent) -->
-<script>
-(function() {
-  try {
-    let guruKey = localStorage.getItem("GuruKeyVerified");
-    let backupKey = sessionStorage.getItem("GuruKeyVerified");
+        let guruKey = localStorage.getItem("GuruKeyVerified");
+        let backupKey = sessionStorage.getItem("GuruKeyVerified");
 
-    // अगर localStorage में नहीं है लेकिन sessionStorage में है तो restore करो
-    if (!guruKey && backupKey) {
-      localStorage.setItem("GuruKeyVerified", backupKey);
-      guruKey = backupKey;
-      console.log("♻️ Session restored from backup.");
-    }
+        if (!guruKey && backupKey) {
+            localStorage.setItem("GuruKeyVerified", backupKey);
+            guruKey = backupKey;
+            console.log(" Session restored from backup.");
+        }
 
-    // दोनों string या boolean true स्वीकार होंगे
-    if (guruKey == "true" || guruKey === true) {
-      console.log("✅ गुरु पहचान सत्यापित — सखीवाणी सत्र सक्रिय।");
-    } else {
-      alert("⚠️ गुरु सत्यापन आवश्यक है। कृपया पुनः लॉगिन करें।");
-      window.location.href = "admin.html";
-    }
+        if (guruKey == "true" || guruKey == true) {
+            console.log("गुरु पहचान सत्यापित — सखीवाणी सत्र सक्रिय।");
+        } else {
+            alert("गुरु सत्यापन सिर्फ एक बार इस ईमेल आईडी - "shreevidyamatabhuvanesvari@gamil.com" से आवश्यक है। कृपया पुनः लॉगिन करें, यदि पासवर्ड बदल दिया जाता है।");
+            window.location.href = "admin.html";
+        }
 
-    // Logout function
-    window.guruLogout = function() {
-      localStorage.removeItem("GuruKeyVerified");
-      sessionStorage.removeItem("GuruKeyVerified");
-      alert("🔒 सत्र समाप्त — कृपया पुनः लॉगिन करें।");
-      window.location.href = "admin.html";
-    };
-
-  } catch (err) {
-    console.error("Session Error:", err);
-    alert("⚠️ सत्र सत्यापन में समस्या। कृपया पुनः लॉगिन करें।");
-    window.location.href = "admin.html";
-  }
-})();
-</script>
-
-  <!-- 🪷 Header -->
-  <header>
-    <h1>🪷 श्रीविद्या शिक्षण पैनल — सखिवाणी</h1>
-    <p>ज्ञान, साधना और सिद्धि का संगम 🌼</p>
-    <button onclick="guruLogout()" style="float:right; margin-top:-40px;">🔓 Logout</button>
-  </header>
-
-  <!-- 💬 संवाद केंद्र -->
-  <section id="dialoguePanel">
-    <h2>💬 सखिवाणी संवाद केंद्र</h2>
-    <textarea id="userQuestion" placeholder="अपना प्रश्न यहाँ लिखें..."></textarea><br>
-    <button onclick="processDialogue()">🔍 उत्तर प्राप्त करें</button>
-    <div id="dialogueResponse"></div>
-  </section>
-
-  <script>
-  function processDialogue() {
-    const q = document.getElementById("userQuestion").value.trim();
-    const r = document.getElementById("dialogueResponse");
-    if (!q) {
-      r.innerHTML = "❗ कृपया पहले प्रश्न दर्ज करें।";
-      return;
-    }
-
-    r.innerHTML = "⏳ उत्तर संसाधित हो रहा है...";
-
-    setTimeout(() => {
-      r.innerHTML = `
+        function guruLogout() {
+            localStorage.removeItem("GuruKeyVerified");
+            sessionStorage.removeItem("GuruKeyVerified");
+            alert(सत्र समाप्त - कृपया पुनः लॉगिन इस ईमेल आईडी से करें - "shreevidyamatabhuvanesvari@gamil.com"
+            window.location.href = "admin.html";
+        }
+    </script>
+    <header>
+        <h1>श्रीविद्या शिक्षण पैनल — सखिवाणी</h1>
+        <p>ज्ञान, साधना और सिद्धि का संगम</p>
+        <button onclick="guruLogout()" style="float:right; margin-top:-40px;">Logout</button>
+setTimeout(() => {
+      r.innerHTML = 
         <b>हिंदी:</b> "${q}" प्रश्न का उत्तर अभी उपलब्ध नहीं है, लेकिन अध्ययन जारी रखें।<br>
         <b>English:</b> Response for "${q}" is being prepared. Please check the Study Notes.
-      `;
+      ;
     }, 1200);
   }
   </script>
@@ -214,5 +162,6 @@
   <script src="scripts/VoiceReset.js"></script>
   <script src="scripts/secureDashboard.js"></script>
 
+</header>
 </body>
 </html>
