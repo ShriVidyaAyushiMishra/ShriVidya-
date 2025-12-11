@@ -1,136 +1,114 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🪷 श्रीविद्या App — गुरु प्रवेश</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🪷 श्रीविद्या App — गुरु प्रवेश</title>
+    <script>
+        const GURU_MASTER_KEY = "a@35707207966459#9926@342144"; // गुरु कुंजी
 
-  <script>
-const GURU_MASTER_KEY = "OmShreeVidya@2025"; // गुरु कुंजी
+        function verifyGuruLogin() {
+            const key = document.getElementById("guruKeyInput").value.trim();
+            const status = document.getElementById("loginStatus");
 
-function verifyGuruLogin() {
-  const key = document.getElementById("guruKeyInput").value.trim();
-  const status = document.getElementById("loginStatus");
+            if (key === GURU_MASTER_KEY) {
+                localStorage.setItem("GuruKeyVerified", "true"); // पहचान स्मरण
+                status.innerText = "✅ गुरु पहचान सत्यापित — प्रवेश स्वीकृत।";
+                setTimeout(() => {
+                    window.location.href = "dashboard.html"; // डैशबोर्ड पर जाए
+                }, 800);
+            } else {
+                status.innerText = "❌ गलत कुंजी — कृपया पुनः प्रयास करें।";
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: "Noto Sans Devanagari", sans-serif;
+            background: linear-gradient(135deg, #f5e6ff, #fff);
+            color: #333;
+            text-align: center;
+            padding: 40px;
+        }
 
-  if (key === GURU_MASTER_KEY) {
-    localStorage.setItem("GuruKeyVerified", "true"); // पहचान स्मरण
-    status.innerText = "✅ गुरु पहचान सत्यापित — प्रवेश स्वीकृत।";
-    setTimeout(() => {
-      window.location.href = "dashboard.html"; // डैशबोर्ड पर जाए
-    }, 800);
-  } else {
-    status.innerText = "❌ गलत कुंजी — कृपया पुनः प्रयास करें।";
-  }
-}
-  </script>
+        h2 {
+            color: #6a1b9a;
+        }
 
-  <style>
-    body {
-      font-family: "Noto Sans Devanagari", sans-serif;
-      background: linear-gradient(135deg, #f5e6ff, #fff);
-      color: #333;
-      text-align: center;
-      padding: 40px;
-    }
-    h2 {
-      color: #6a1b9a;
-    }
-    input {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      width: 250px;
-      margin-top: 10px;
-      text-align: center;
-    }
-    button {
-      padding: 10px 20px;
-      margin: 10px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    .btn-primary {
-      background-color: #6a1b9a;
-      color: white;
-    }
-    .btn-voice {
-      background-color: #007bff;
-      color: white;
-    }
-    .btn-reset {
-      background-color: #ff9800;
-      color: white;
-    }
-  </style>
+        input {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 250px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background-color: #6a1b9a;
+            color: white;
+        }
+
+        .btn-voice {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-reset {
+            background-color: #ff9800;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-
-  <!-- 🔱 Guru Authentication Panel -->
-  <h2>🪷 श्रीविद्या App — गुरु प्रवेश</h2>
-  <p>कृपया अपनी पहचान कुंजी दर्ज करें:</p>
-
-  <input type="OmShreeVidya@2025" id="guruKeyInput" placeholder="अपनी गुरु कुंजी यहाँ लिखें" />
-  <br>
-  <button class="btn-primary" onclick="verifyGuruLogin()">🔐 प्रवेश करें</button>
-
-  <div id="loginStatus"></div>
-
-  <!-- 🎙️ Voice Verification Section -->
-  <div id="voiceVerifyPanel" style="display:none; margin-top:30px;">
-    <h3>🎤 आवाज़ पहचान (Voice Authentication)</h3>
-    <p>कृपया अपना गुरु-मंत्र बोलें:</p>
-
-    <button class="btn-voice" onclick="startVoiceVerification()">🎙️ आवाज़ सत्यापित करें</button>
-    <button class="btn-reset" onclick="resetVoiceRegistration()">🔄 आवाज़ बदलें</button>
-
-    <p id="voiceStatus"></p>
-  </div>
-
-  <!-- 🌿 Core Intelligence Scripts -->
-<script src="scripts/chetanaBridge.js"></script>
-<script src="scripts/voiceAuthCore.js"></script>
-<script src="scripts/voiceAutoWake.js"></script>
-
-<!-- 🎙️ Guru–Sakhi Resonance -->
-<script src="scripts/GuruSakhiTalk.js"></script>
-<script src="scripts/GuruSakhiResonance.js"></script>
-
-<!-- 🌺 Sakhi Learning Core -->
-<script src="scripts/ShrutiSense.js"></script>
-<script src="scripts/BhavaLink.js"></script>
-<script src="scripts/ResonanceCore.js"></script>
-
-<!-- 🧠 Sakhi Knowledge & Quiz Systems -->
-<script src="scripts/GyaanPulse_v16_6.js"></script>
-<script src="scripts/QuizSynth.js"></script>
-<script src="scripts/TestEvaluator.js"></script>
-
-<!-- 📊 Result & Insight Core -->
-<script src="scripts/ResultInsight.js"></script>
-<script src="scripts/SakhiProgressTracker.js"></script>
-
-<!-- 🌸 Dashboard + Fusion -->
-<script src="scripts/GuruDashboard.js"></script>
-<script src="scripts/SakhiFusionCore.js"></script>
-
-<!-- 🕉️ Unification + Live Response -->
-<script src="scripts/ChetanaUnify.js"></script>
-<script src="scripts/SakhiVaniLive.js"></script>
-
-<!-- 🔐 Dual Security Core -->
-<script src="scripts/loginCore.js"></script>
-
-<!-- 🌼 Optional Supporting Systems -->
-<script src="scripts/VaaniPath.js"></script>
-<script src="scripts/VaaniVistaar.js"></script>
-
-  <!-- 🔐 Guru Login Core (v16.6.1) -->
-<script src="scripts/loginCore_v16_6_1.js"></script>
-
-  <!-- 🌼 Guru Secure Ethical Access Layer -->
-<script src="scripts/GuruSecureAccess_v16_6_8.js"></script>
-  
+    <!-- 🔱 Guru Authentication Panel -->
+    <h2>🪷 श्रीविद्या App — गुरु प्रवेश</h2>
+    <p>कृपया अपनी पहचान कुंजी दर्ज करें:</p>
+    <input type="text" id="guruKeyInput" placeholder="अपनी गुरु कुंजी यहाँ लिखें" />
+    <br>
+    <button class="btn-primary" onclick="verifyGuruLogin()">🔐 प्रवेश करें</button>
+    
+      
+    <!-- 🌿 Core Intelligence Scripts -->
+    <script src="scripts/chetanaBridge.js"></script>
+    <script src="scripts/voiceAuthCore.js"></script>
+    <script src="scripts/voiceAutoWake.js"></script>
+    <!-- 🎙️ Guru–Sakhi Resonance -->
+    <script src="scripts/GuruSakhiTalk.js"></script>
+    <script src="scripts/GuruSakhiResonance.js"></script>
+    <!-- 🌺 Sakhi Learning Core -->
+    <script src="scripts/ShrutiSense.js"></script>
+    <script src="scripts/BhavaLink.js"></script>
+    <script src="scripts/ResonanceCore.js"></script>
+    <!-- 🧠 Sakhi Knowledge & Quiz Systems -->
+    <script src="scripts/GyaanPulse_v16_6.js"></script>
+    <script src="scripts/QuizSynth.js"></script>
+    <script src="scripts/TestEvaluator.js"></script>
+    <!-- 📊 Result & Insight Core -->
+    <script src="scripts/ResultInsight.js"></script>
+    <script src="scripts/SakhiProgressTracker.js"></script>
+    <!-- 🌸 Dashboard + Fusion -->
+    <script src="scripts/GuruDashboard.js"></script>
+    <script src="scripts/SakhiFusionCore.js"></script>
+    <!-- 🕉️ Unification + Live Response -->
+    <script src="scripts/ChetanaUnify.js"></script>
+    <script src="scripts/SakhiVaniLive.js"></script>
+    
+    <!-- 🌼 Optional Supporting Systems -->
+    <script src="scripts/VaaniPath.js"></script>
+    <script src="scripts/VaaniVistaar.js"></script>
+    <!-- 🔐 Guru Login Core (v16.6.1) -->
+    <script src="scripts/loginCore_v16_6_1.js"></script>
+    <!-- 🌼 Guru Secure Ethical Access Layer -->
+    <script src="scripts/GuruSecureAccess_v16_6_8.js"></script>
 </body>
 </html>
