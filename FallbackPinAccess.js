@@ -37,9 +37,4 @@
     }
   };
 
-  global.FallbackPinAccess = FallbackPinAccess;
-
-  // 🚀 प्रारंभिक सक्रियता
-  setTimeout(() => FallbackPinAccess.init(), 1200);
-
 })(window);
